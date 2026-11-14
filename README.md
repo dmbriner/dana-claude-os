@@ -8,9 +8,10 @@ A personal recruiting and research system for finance internship recruiting, bui
 |---|---|---|
 | **Daily brief** (`routines/daily-brief.md`) | Weekdays 7am ET, in the cloud | Checks careers pages at ~120 target firms and logs new student programs to Notion. Then emails a newsletter with market prices, Fed and economic releases, research from major banks and asset managers, top stories, a concept of the day, 5 interview technicals with answers, firm news, and recent deals. |
 | **Cover letter + packet** (`skills/cover-letter`) | On request | Reads the posting, writes a one-page letter in the applicant's voice by cloning a real letter's formatting, tailors the resume bullet by bullet, exports PDFs through Word, checks the page count, and files everything into the firm's application folder. |
+| **Email assistant** (`skills/email-assistant`) | On request | Triages the inbox, updates application statuses in Notion from confirmation, interview, and rejection emails, drafts replies in the applicant's voice as Gmail drafts (never sends), and learns from how drafts get edited. Adapted from [claude-email-assistant](https://github.com/marian-kamenistak/claude-email-assistant). |
 | **Coffee chat prep** (`skills/coffee-chat-prep`) | On request | Researches a contact, their group's recent deals, their market, and open roles, then writes a one-screen prep brief with sourced facts and specific questions. |
 
-Notion is the database behind all three: Firms, Opportunities, People, Tasks, and a Technicals Bank (see `notion/schema.md`).
+Notion is the database behind all of them: Firms, Opportunities, People, Tasks, and a Technicals Bank (see `notion/schema.md`).
 
 ## How it's built
 
