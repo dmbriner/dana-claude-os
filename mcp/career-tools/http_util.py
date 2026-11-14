@@ -28,7 +28,7 @@ def fetch(url: str, data: dict | None = None, timeout: int = 15, retries: int = 
         except urllib.error.HTTPError as e:
             last = e
             if e.code not in (429, 500, 502, 503, 504):
-                raise
+                break  # not worth retrying; fall through to the curl fallback for GETs
         except (urllib.error.URLError, OSError) as e:  # includes socket timeouts
             last = e
         time.sleep(1.5 * (attempt + 1))  # polite backoff
