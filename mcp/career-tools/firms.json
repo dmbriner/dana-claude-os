@@ -1,0 +1,123 @@
+[
+ {
+  "name": "Houlihan Lokey",
+  "category": "Middle market / restructuring",
+  "ats": "workday",
+  "board": "hl.wd1.myworkdayjobs.com/Campus"
+ },
+ {
+  "name": "Evercore",
+  "category": "Elite boutique",
+  "ats": "html",
+  "board": "https://evercore.tal.net/vx/lang-en-GB/mobile-0/channel-1/appcentre-1/brand-6/candidate/jobboard/vacancy/2/adv/"
+ },
+ {
+  "name": "Wells Fargo",
+  "category": "Bulge bracket",
+  "ats": "workday",
+  "board": "wf.wd1.myworkdayjobs.com/WellsFargoJobs"
+ },
+ {
+  "name": "Deutsche Bank",
+  "category": "Bulge bracket",
+  "ats": "workday",
+  "board": "db.wd3.myworkdayjobs.com/DBWebsite"
+ },
+ {
+  "name": "Mizuho",
+  "category": "Large bank",
+  "ats": "workday",
+  "board": "mizuho.wd1.myworkdayjobs.com/mizuhoamericas"
+ },
+ {
+  "name": "MUFG",
+  "category": "Large bank",
+  "ats": "workday",
+  "board": "mufgub.wd3.myworkdayjobs.com/MUFG-Careers"
+ },
+ {
+  "name": "Truist",
+  "category": "Regional bank",
+  "ats": "workday",
+  "board": "truist.wd1.myworkdayjobs.com/Careers"
+ },
+ {
+  "name": "PNC",
+  "category": "Regional bank",
+  "ats": "workday",
+  "board": "pnc.wd5.myworkdayjobs.com/External"
+ },
+ {
+  "name": "Fifth Third",
+  "category": "Regional bank",
+  "ats": "workday",
+  "board": "fifththird.wd5.myworkdayjobs.com/53careers"
+ },
+ {
+  "name": "Regions",
+  "category": "Regional bank",
+  "ats": "workday",
+  "board": "regions.wd5.myworkdayjobs.com/Regions_Careers"
+ },
+ {
+  "name": "KeyBanc",
+  "category": "Regional bank",
+  "ats": "workday",
+  "board": "keybank.wd5.myworkdayjobs.com/External_Career_Site"
+ },
+ {
+  "name": "M&T",
+  "category": "Regional bank",
+  "ats": "workday",
+  "board": "mtb.wd5.myworkdayjobs.com/MTB"
+ },
+ {
+  "name": "TD",
+  "category": "Large bank",
+  "ats": "workday",
+  "board": "td.wd3.myworkdayjobs.com/TD_Bank_Careers"
+ },
+ {
+  "name": "Blackstone",
+  "category": "Private equity / alternatives",
+  "ats": "workday",
+  "board": "blackstone.wd1.myworkdayjobs.com/Blackstone_Campus_Careers"
+ },
+ {
+  "name": "Carlyle",
+  "category": "Private equity / alternatives",
+  "ats": "workday",
+  "board": "carlyle.wd1.myworkdayjobs.com/carlyle"
+ },
+ {
+  "name": "Ares",
+  "category": "Private credit / alternatives",
+  "ats": "workday",
+  "board": "aresmgmt.wd1.myworkdayjobs.com/External"
+ },
+ {
+  "name": "BlackRock",
+  "category": "Asset management",
+  "ats": "workday",
+  "board": "blackrock.wd1.myworkdayjobs.com/BlackRock_Professional"
+ },
+ {
+  "name": "Roark Capital",
+  "category": "Private equity / alternatives",
+  "ats": "greenhouse",
+  "board": "roarkcapitalgroup"
+ },
+ {
+  "name": "General Atlantic",
+  "category": "Private equity / alternatives",
+  "ats": "greenhouse",
+  "board": "generalatlantic"
+ },
+ {
+  "name": "Richemont",
+  "category": "Luxury",
+  "ats": "workday",
+  "board": "richemont.wd3.myworkdayjobs.com/Richemont",
+  "title_filter": "financ|fp&a|accounting|account|treasury|strategy|m&a|investment|controll|audit|tax|business analy"
+ }
+]
