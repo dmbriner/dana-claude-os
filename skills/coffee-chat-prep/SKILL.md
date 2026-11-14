@@ -31,7 +31,14 @@ Files may be iCloud placeholders. If a file can't be read, skip it and say so.
 
 ## 2. Research (web)
 
-Use WebSearch and WebFetch (or a web-fetch agent). Open the pages you cite; a search snippet alone is not a source. Prefer the firm's own site, press releases, SEC filings, and reputable financial press (Bloomberg, Reuters, WSJ, FT, PE Hub, PitchBook news, Secondaries Investor, Mergermarket summaries).
+Start with the career-tools MCP server, which is free and fast:
+- `firm_deals <firm>`: deals the firm advised on or did, from news plus the firm's own announcements where it publishes them (Evercore).
+- `bank_research firms=[<firm>]` and `bank_research kind="news"`: the firm's own recent research and press releases.
+- `search_jobs firms=[<firm>]`, `simplify_jobs company=<firm>`, then `job_details <url>` for each relevant posting's full description, dates, and apply link.
+- `read_document <url>`: the full text of any page or PDF you cite (group pages, press releases, research PDFs).
+- `market_news`, `search_news`, and `sec_filings` for the person's market.
+
+When a site blocks those tools (career-tools returns `needs_browser` or `read_with: tinyfish`, or `read_document` returns little text), read it with TinyFish `fetch_content`. Use TinyFish `search` or WebSearch when you need the open web. Open the pages you cite; a search snippet alone is not a source. Prefer the firm's own site, press releases, SEC filings, and reputable financial press (Bloomberg, Reuters, WSJ, FT, PE Hub, PitchBook news, Secondaries Investor, Mergermarket summaries).
 
 Cover, in this order of importance:
 
@@ -41,7 +48,7 @@ Cover, in this order of importance:
 4. **Their market right now.** The 3–5 biggest things happening in that person's market: volumes, pricing, fundraising, regulation, notable competitor moves. For example, for secondaries: GP-led continuation vehicle volume, LP portfolio sale pricing as a % of NAV, and the largest recent funds. Connect each trend to what it means for their group.
 5. **Open roles tied to them.** Find the firm's current student postings, especially in the person's group: summer analyst roles for 2027 and 2028, sophomore and early-insight programs, and off-cycle internships. Check:
    - the firm's own careers or campus page (Greenhouse, Workday, tal.net, Oracle)
-   - freehire (the `mcp__freehire__search_jobs` tool) when it's available
+   - career-tools `search_jobs` and `simplify_jobs` (then `job_details` for each one you cite)
    - Dana's Notion Opportunities
 
    Read each relevant job description. Pull out what the group does, the skills it asks for, the deadline, and the program length. Connect each posting to the person's work, to Dana's experience, and to questions to ask. For example: "The posting says analysts model GP-led continuation vehicles; ask how much of the team's 2026 volume was GP-led versus LP portfolio sales."

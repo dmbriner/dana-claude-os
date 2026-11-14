@@ -1,5 +1,65 @@
 [
  {
+  "name": "Goldman Sachs",
+  "category": "Bulge bracket",
+  "ats": "tinyfish",
+  "board": "https://higher.gs.com/campus"
+ },
+ {
+  "name": "JPMorgan",
+  "category": "Bulge bracket",
+  "ats": "oracle",
+  "board": "jpmc.fa.oraclecloud.com/CX_1001"
+ },
+ {
+  "name": "Morgan Stanley",
+  "category": "Bulge bracket",
+  "ats": "tinyfish",
+  "board": "https://www.morganstanley.com/careers/students-graduates/opportunities"
+ },
+ {
+  "name": "Citi",
+  "category": "Bulge bracket",
+  "ats": "workday",
+  "board": "citi.wd5.myworkdayjobs.com/2"
+ },
+ {
+  "name": "Bank of America",
+  "category": "Bulge bracket",
+  "ats": "workday",
+  "board": "ghr.wd1.myworkdayjobs.com/Lateral-US"
+ },
+ {
+  "name": "Barclays",
+  "category": "Bulge bracket",
+  "ats": "workday",
+  "board": "barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays"
+ },
+ {
+  "name": "Lazard",
+  "category": "Elite boutique",
+  "ats": "oracle",
+  "board": "icbpjb.fa.ocs.oraclecloud.com/LazardStudentCareers"
+ },
+ {
+  "name": "PJT Partners",
+  "category": "Elite boutique",
+  "ats": "workday",
+  "board": "pjtpartners.wd1.myworkdayjobs.com/Careers"
+ },
+ {
+  "name": "Moelis",
+  "category": "Elite boutique",
+  "ats": "tinyfish",
+  "board": "https://moelis-careers.tal.net/vx/lang-en-GB/mobile-0/appcentre-1/brand-4/user-7/xf-69860b0d6b25/wid-2/candidate"
+ },
+ {
+  "name": "Guggenheim",
+  "category": "Middle market / restructuring",
+  "ats": "workday",
+  "board": "guggenheim.wd1.myworkdayjobs.com/Guggenheim_Careers"
+ },
+ {
   "name": "Houlihan Lokey",
   "category": "Middle market / restructuring",
   "ats": "workday",

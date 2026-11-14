@@ -1,11 +1,14 @@
 """Small HTTP helpers on urllib (no third-party packages)."""
 from __future__ import annotations
 
+import hashlib
 import json
+import os
 import subprocess
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 UA = "career-tools/0.1 (personal job and news tracker)"
 
@@ -41,3 +44,17 @@ def fetch(url: str, data: dict | None = None, timeout: int = 15, retries: int = 
 
 def get_json(url: str, data: dict | None = None, **kw):
     return json.loads(fetch(url, data, **kw))
+
+
+CACHE_DIR = Path(os.environ.get("CAREER_TOOLS_CACHE_DIR", Path(__file__).resolve().parents[2] / "private" / "cache" / "http"))
+
+
+def cached(url: str, hours: float = 6, **kw) -> bytes:
+    """fetch() with an on-disk cache, for big files that change slowly (sitemaps, job lists)."""
+    path = CACHE_DIR / (hashlib.sha1(url.encode()).hexdigest() + ".bin")
+    if path.exists() and time.time() - path.stat().st_mtime < hours * 3600:
+        return path.read_bytes()
+    data = fetch(url, **kw)
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
+    return data

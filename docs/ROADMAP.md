@@ -7,9 +7,10 @@
 - [x] Coffee chat prep briefs
 - [x] Email triage, reply drafts, and Notion status sync (on request)
 - [x] career-tools MCP server: jobs from firms' own feeds, Fed, FRED, Treasury, news
+- [x] career-tools 0.2: full job descriptions, Oracle feeds (JPMorgan, Lazard), SimplifyJobs, market and deal news, SEC filings, bank research, page/PDF reading, TinyFish hand-off, `.mcp.json`
 
 ## Next
-- [ ] **Load all ~120 firms** into `firms.json` (hedge funds, PE, boutiques, luxury).
+- [ ] **Load all ~120 firms** into `firms.json` (30 so far; still missing hedge funds, more PE, UBS, Jefferies, Centerview).
 - [ ] **Host career-tools online** (free tier) so the 7am cloud brief can call it.
 - [ ] **Automatic status sync.** Run the email assistant's Notion sync inside the daily brief, every morning.
 - [ ] **One inbox.** Forward school and personal accounts into the Gmail account the connector reads, so the status sync sees everything.

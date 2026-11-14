@@ -11,7 +11,8 @@ import re
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
-from http_util import fetch, get_json
+from http_util import cached, fetch, get_json
+from text import deadlines, html_to_text, title_of
 
 # Words that mark a student / early-careers posting.
 STUDENT = re.compile(
@@ -87,6 +88,32 @@ def workday(board: str):
     return out
 
 
+def oracle(board: str):
+    """Oracle Recruiting Cloud (JPMorgan). board = "<host>.fa.oraclecloud.com/<siteNumber>"."""
+    host, site = board.split("/", 1)
+    seen, out = set(), []
+    for term in ("intern", "summer analyst", "analyst program", "early careers"):
+        q = urllib.parse.quote(f'"{term}"')
+        api = (f"https://{host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList"
+               f"&finder=findReqs;siteNumber={site},keyword={q},limit=50,offset=0")
+        for r in (get_json(api).get("items") or [{}])[0].get("requisitionList", []):
+            if r["Id"] in seen:
+                continue
+            seen.add(r["Id"])
+            out.append({"title": r["Title"], "location": r.get("PrimaryLocation", ""),
+                        "url": f"https://{host}/hcmUI/CandidateExperience/en/sites/{site}/job/{r['Id']}",
+                        "posted": r.get("PostedDate", "")})
+    return out
+
+
+class NeedsBrowser(Exception):
+    """The firm's careers site only renders in a browser. Read it with TinyFish (fetch_content) instead."""
+
+
+def browser_only(url: str):
+    raise NeedsBrowser(url)
+
+
 def html_links(url: str):
     """Fallback for career pages without an API (e.g. tal.net boards): pull job-looking links."""
     page = fetch(url).decode("utf-8", "replace")
@@ -105,7 +132,8 @@ def html_links(url: str):
 
 
 ADAPTERS = {"greenhouse": greenhouse, "lever": lever, "ashby": ashby,
-            "smartrecruiters": smartrecruiters, "workday": workday, "html": html_links}
+            "smartrecruiters": smartrecruiters, "workday": workday, "oracle": oracle, "html": html_links,
+            "tinyfish": browser_only}
 
 
 def detect(careers_url: str):
@@ -128,6 +156,8 @@ def detect(careers_url: str):
         return "ashby", parts[-1] if "posting-api" in parts else parts[0]
     if "smartrecruiters.com" in host:
         return "smartrecruiters", parts[0]
+    if "oraclecloud.com" in host and "sites" in parts:
+        return "oracle", f"{u.netloc}/{parts[parts.index('sites') + 1]}"
     return "html", careers_url
 
 
@@ -148,18 +178,118 @@ def firm_jobs(firm: dict, student_only: bool = True):
 
 
 def many(firms: list, student_only: bool = True):
-    """Check firms in parallel (6 at a time). Returns (jobs, errors)."""
-    jobs, errors = [], {}
+    """Check firms in parallel (6 at a time). Returns (jobs, errors, needs_browser)."""
+    jobs, errors, browser = [], {}, []
 
     def one(f):
         try:
-            return f["name"], firm_jobs(f, student_only), None
+            return f, firm_jobs(f, student_only), None
+        except NeedsBrowser as e:
+            return f, [], e
         except Exception as e:
-            return f["name"], [], f"{type(e).__name__}: {e}"[:160]
+            return f, [], f"{type(e).__name__}: {e}"[:160]
 
     with ThreadPoolExecutor(max_workers=6) as ex:
-        for name, js, err in ex.map(one, firms):
+        for f, js, err in ex.map(one, firms):
             jobs += js
-            if err:
-                errors[name] = err
-    return jobs, errors
+            if isinstance(err, NeedsBrowser):
+                browser.append({"firm": f["name"], "careers_url": str(err)})
+            elif err:
+                errors[f["name"]] = err
+    return jobs, errors, browser
+
+
+# ---------- full posting details ----------
+
+def _clean(h: str) -> str:
+    return html_to_text(html.unescape(h or ""))
+
+
+def job_details(url: str) -> dict:
+    """Full description, dates, and apply link for one posting URL, read from the job system's own API."""
+    u = urllib.parse.urlparse(url)
+    host, parts = u.netloc.lower(), [p for p in u.path.split("/") if p]
+    d = {"url": url, "apply_url": url}
+    if "myworkdayjobs.com" in host:
+        if parts and re.fullmatch(r"[a-z]{2}-[A-Za-z]{2}", parts[0]):
+            parts = parts[1:]
+        site, rest = parts[0], "/".join(parts[1:])
+        info = get_json(f"https://{u.netloc}/wday/cxs/{host.split('.')[0]}/{site}/{rest}")["jobPostingInfo"]
+        d.update(title=info.get("title"), location=info.get("location"), posted=info.get("startDate"),
+                 closes=info.get("endDate"), time_type=info.get("timeType"),
+                 apply_url=info.get("externalUrl") or url, description=_clean(info.get("jobDescription")))
+    elif "greenhouse.io" in host:
+        board = parse_q(u, "for") or parts[0]
+        jid = parse_q(u, "gh_jid") or parts[parts.index("jobs") + 1]
+        j = get_json(f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs/{jid}")
+        d.update(title=j.get("title"), location=(j.get("location") or {}).get("name"),
+                 posted=(j.get("first_published") or j.get("updated_at") or "")[:10],
+                 apply_url=j.get("absolute_url") or url, description=_clean(j.get("content")))
+    elif "lever.co" in host:
+        j = get_json(f"https://api.lever.co/v0/postings/{parts[0]}/{parts[1]}")
+        lists = "\n\n".join(f"{x['text']}\n" + html_to_text(x.get("content", "")) for x in j.get("lists", []))
+        d.update(title=j.get("text"), location=(j.get("categories") or {}).get("location"),
+                 apply_url=j.get("applyUrl") or url,
+                 description="\n\n".join(filter(None, [j.get("descriptionPlain"), lists, j.get("additionalPlain")])))
+    elif "ashbyhq.com" in host:
+        board, jid = parts[0], parts[1]
+        j = next(x for x in get_json(f"https://api.ashbyhq.com/posting-api/job-board/{board}")["jobs"]
+                 if x["jobUrl"].rstrip("/").endswith(jid) or x.get("id") == jid)
+        d.update(title=j["title"], location=j.get("location"), posted=(j.get("publishedAt") or "")[:10],
+                 apply_url=j.get("applyUrl") or url, description=j.get("descriptionPlain") or _clean(j.get("descriptionHtml")))
+    elif "smartrecruiters.com" in host:
+        j = get_json(f"https://api.smartrecruiters.com/v1/companies/{parts[0]}/postings/{parts[1].split('-')[0]}")
+        secs = (j.get("jobAd") or {}).get("sections") or {}
+        d.update(title=j.get("name"), location=(j.get("location") or {}).get("city"), posted=(j.get("releasedDate") or "")[:10],
+                 description="\n\n".join(_clean(v.get("text")) for v in secs.values() if isinstance(v, dict)))
+    elif "oraclecloud.com" in host and "job" in parts:
+        site, jid = parts[parts.index("sites") + 1], parts[parts.index("job") + 1]
+        j = get_json(f"https://{u.netloc}/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true"
+                     f"&finder=ById;Id=%22{jid}%22,siteNumber={site}")["items"][0]
+        body = "\n\n".join(_clean(j.get(k)) for k in ("ExternalDescriptionStr", "ExternalResponsibilitiesStr",
+                                                         "ExternalQualificationsStr", "CorporateDescriptionStr") if j.get(k))
+        d.update(title=j.get("Title"), location=j.get("PrimaryLocation"), posted=(j.get("ExternalPostedStartDate") or "")[:10],
+                 closes=(j.get("ExternalPostedEndDate") or "")[:10] or None, description=body)
+    else:
+        page = fetch(url).decode("utf-8", "replace")
+        d.update(title=title_of(page), description=html_to_text(page))
+    desc = d.get("description") or ""
+    d["deadline_mentions"] = deadlines(desc)
+    if len(desc) < 400:
+        d["needs_browser"] = True
+        d["note"] = "Little text came back; the page probably needs a browser. Read it with TinyFish fetch_content."
+    return d
+
+
+# ---------- SimplifyJobs community list (all companies, mostly tech; finance via keyword) ----------
+
+SIMPLIFY = "https://raw.githubusercontent.com/SimplifyJobs/Summer{year}-Internships/dev/.github/scripts/listings.json"
+FINANCE = re.compile(r"investment bank|banking|summer analyst|private equity|finance|capital markets|\bM&A\b|restructuring|"
+                     r"asset management|equity research|sales (?:and|&) trading|wealth|credit|quant", re.I)
+
+
+def simplify(query: str = "", company: str = "", finance_only: bool = True, year: int = 2027, limit: int = 50):
+    rows = json.loads(cached(SIMPLIFY.format(year=year), hours=12, timeout=60))
+    words = query.lower().split()
+    out = []
+    for r in sorted(rows, key=lambda r: r.get("date_posted", 0), reverse=True):
+        if not (r.get("active") and r.get("is_visible", True)):
+            continue
+        hay = f"{r['company_name']} {r['title']} {' '.join(r.get('locations', []))}".lower()
+        if company and company.lower() not in r["company_name"].lower():
+            continue
+        if finance_only and not FINANCE.search(r["title"]):
+            continue
+        if not all(w in hay for w in words):
+            continue
+        out.append({"firm": r["company_name"], "title": r["title"], "location": "; ".join(r.get("locations", [])),
+                    "url": r["url"].replace("?embed=true", ""), "terms": r.get("terms"),
+                    "posted": _date(r.get("date_posted")), "source": "SimplifyJobs"})
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _date(ts):
+    from datetime import datetime, timezone
+    return datetime.fromtimestamp(ts, timezone.utc).strftime("%Y-%m-%d") if ts else ""
