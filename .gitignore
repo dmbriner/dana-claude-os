@@ -1,0 +1,7 @@
+# Personal data never leaves this Mac
+private/
+*.docx
+*.pdf
+*.xlsx
+.DS_Store
+__pycache__/

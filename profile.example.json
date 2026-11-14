@@ -1,0 +1,21 @@
+{
+  "name": "First M. Last",
+  "city": "City, ST",
+  "school_line": "University sophomore (Major, Minor, graduating May 2029)",
+  "phone": "(555) 555-5555",
+  "email": "you@school.edu",
+  "newsletter_to": "you@example.com",
+  "career_root": "~/path/to/Career folder",
+  "base_resume": "~/Desktop/Resume.docx",
+  "transcript": "~/Desktop/Transcript.pdf",
+  "letter_template": "~/path/to/a/finished/cover letter.docx",
+  "notion": {
+    "firms": "collection://...",
+    "opportunities": "collection://...",
+    "people": "collection://...",
+    "tasks": "collection://...",
+    "technicals_bank": "collection://...",
+    "dashboard_page": "..."
+  },
+  "routine_id": "trig_..."
+}
