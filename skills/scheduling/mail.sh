@@ -21,6 +21,8 @@ on run argv
   with timeout of 900 seconds
   tell application "Mail"
     repeat with acct in accounts
+      -- Gmail is searched through the Gmail connector; scanning it here is slow and duplicative
+      if {"Google", "Gmail"} does not contain (name of acct) then
       repeat with mb in mailboxes of acct
         if skipBoxes does not contain (name of mb) then
           try
@@ -44,6 +46,7 @@ on run argv
           end try
         end if
       end repeat
+      end if
     end repeat
   end tell
   end timeout
