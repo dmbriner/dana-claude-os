@@ -39,6 +39,7 @@ For each recruiting-status email, find the matching row in Opportunities (`notio
 Add a line to the row's page: `<date> – <what the email said> (Gmail: <subject>)`. Never move a Stage backward. If no row matches, create one (Stage from the email, linked to the Firms row) and say so.
 
 ## 3. Draft replies
+- **Any email that proposes or confirms meeting times:** follow the `scheduling` skill first (all calendars, all inboxes including iCloud Sent). Never pick times from one calendar.
 - Read the whole thread first. Acknowledge earlier messages in the chain when it's a reply.
 - Follow `private/email-voice.md` and `private/email-learned.md`.
 - Short: most replies are 2–5 sentences. First name greeting, the point in sentence one, a clear ask or next step, then the sign-off from the voice file.

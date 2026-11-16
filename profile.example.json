@@ -17,5 +17,19 @@
     "technicals_bank": "collection://...",
     "dashboard_page": "..."
   },
-  "routine_id": "trig_..."
+  "routine_id": "trig_...",
+  "calendars": {
+    "personal": "you@gmail.com",
+    "career_finance": "...@group.calendar.google.com",
+    "unc": "...@group.calendar.google.com",
+    "alpha_phi": "club@gmail.com",
+    "reference": "...@group.calendar.google.com"
+  },
+  "scheduling": {
+    "day_start": "08:00",
+    "day_end": "21:00",
+    "min_window_minutes": 30,
+    "buffer_minutes": 15,
+    "home_tz": "America/New_York"
+  }
 }
