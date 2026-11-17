@@ -1,32 +1,52 @@
-# Investment Banking Assistant
+# Dana's Claude OS
 
-A personal recruiting and research system for finance internship recruiting, built on [Claude Code](https://claude.com/claude-code). It runs a daily markets newsletter, tracks job postings and applications in Notion, and builds tailored application packets.
+A personal operating system for [Claude](https://claude.com/claude-code) built by a finance student. Recruiting, equity research, inbox and calendar, school, and student-org work are installable plugins. They share one private context folder, so every tool knows the same things about you and they can hand work to each other.
 
-## What it does
+## Plugins
 
-| Module | Runs | What it does |
-|---|---|---|
-| **Daily brief** (`routines/daily-brief.md`) | Weekdays 7am ET, in the cloud | Checks careers pages at ~120 target firms and logs new student programs to Notion. Then emails a newsletter with market prices, Fed and economic releases, research from major banks and asset managers, top stories, a concept of the day, 5 interview technicals with answers, firm news, and recent deals. |
-| **Cover letter + packet** (`skills/cover-letter`) | On request | Reads the posting, writes a one-page letter in the applicant's voice by cloning a real letter's formatting, tailors the resume bullet by bullet, exports PDFs through Word, checks the page count, and files everything into the firm's application folder. |
-| **Email assistant** (`skills/email-assistant`) | On request | Triages the inbox, updates application statuses in Notion from confirmation, interview, and rejection emails, drafts replies in the applicant's voice as Gmail drafts (never sends), and learns from how drafts get edited. Adapted from [claude-email-assistant](https://github.com/marian-kamenistak/claude-email-assistant). |
-| **career-tools MCP server** (`mcp/career-tools`) | Always available to Claude | Custom tools for live student postings from each firm's own careers feed, Fed releases, FRED and Treasury data, and news search. Pure Python standard library, no API keys. |
-| **Scheduling** (`skills/scheduling`) | On request, and before any email with times | Checks every calendar and every inbox (Gmail plus Mail.app, Sent included) to find open windows. Booked events count as busy, times offered to someone else stay open until accepted. Keeps a calendar of offered times in sync and does time-zone math in a script, not in its head. |
-| **Coffee chat prep** (`skills/coffee-chat-prep`) | On request | Researches a contact, their group's recent deals, their market, and open roles, then writes a one-screen prep brief with sourced facts and specific questions. |
+| Plugin | What's inside |
+|---|---|
+| [**recruiting**](plugins/recruiting) | `cover-letter` (letter + tailored resume + filed packet), `apply-online` (fills Workday/Greenhouse/Oleeo/Lever in Chrome), `coffee-chat-prep` (sourced prep brief on a contact and their group), `add-event` (event email → calendar with QR code), and a `career-finance` agent that routes to all of them |
+| [**itc-research**](plugins/itc-research) | 11 equity-research skills (ticker, compare, screening, and earnings notes, thesis tracker, Approved List package) and three agents: researcher, reviewer, and a house-style curator that learns from corrections |
+| [**personal-admin**](plugins/personal-admin) | `email-assistant` (triage, drafts in your voice, never sends, learns from edits), `scheduling` (real availability across every calendar and inbox), and a `personal-admin` planning agent |
+| [**involvement**](plugins/involvement) | `alpha-phi` agent for a Director of Academics role: GPA check-ins, roster upkeep, Notion tasks |
+| [**academics**](plugins/academics) | Coursework agent, growing a skill per class |
+| [**workflow-miner**](plugins/workflow-miner) | Reads past sessions, finds manual work you keep repeating, and drafts new skills |
 
-Notion is the database behind all of them: Firms, Opportunities, People, Tasks, and a Technicals Bank (see `notion/schema.md`).
+## Also in this repo
 
-## How it's built
+| Part | What it does |
+|---|---|
+| [`mcp/career-tools`](mcp/career-tools) | MCP server: live student postings from each firm's own careers feed, Fed releases, FRED, Treasury yields, news search. Pure Python stdlib, no API keys. |
+| [`mcp/market-tools`](mcp/market-tools) | MCP server: quotes, performance, price history, SEC filings and XBRL financials. |
+| [`routines/daily-brief.md`](routines/daily-brief.md) | Weekday 7am cloud routine: checks ~120 firms' careers pages, logs new programs to Notion, and emails a newsletter (markets, Fed, bank research, interview technicals, deals). |
+| [`notion/schema.md`](notion/schema.md) | The Notion databases behind it all: Firms, Opportunities, People, Tasks, Technicals Bank. |
+| [`CLAUDE.md`](CLAUDE.md) | The router: which plugin handles which request, and the rules for adding new ones. |
+| [`docs/BRAIN.md`](docs/BRAIN.md) | How the shared private context works. |
 
-- **Skills** are folders of plain-English instructions plus small Python scripts. Claude Code follows them when a request matches. They're symlinked into `~/.claude/skills/`, so edits here take effect immediately.
-- **Routines** are scheduled Claude Code agents that run in the cloud with Notion and Gmail connectors. `routines/render.py` fills a prompt template with private settings.
-- **Personal data stays local.** Names, contact details, Notion IDs, and the applicant's story live in `private/` (git-ignored), along with all .docx and .pdf files. `profile.example.json` shows the shape.
+## How it fits together
 
-## Setup
+```
+                 CLAUDE.md (router, loaded every session)
+                              │
+   ┌──────────────┬───────────┼─────────────┬──────────────┐
+recruiting   itc-research  personal-admin  involvement   academics …
+   │              │           │
+   └──── calls ───┴── calls ──┘     MCP: career-tools, market-tools
+                              │
+                 private/  (shared brain, git-ignored)
+```
 
-1. Copy `profile.example.json` to `private/profile.json` and fill it in. Write `private/story.md` with your experience and style rules.
-2. Link the skills: `ln -s "$PWD/skills/cover-letter" ~/.claude/skills/cover-letter` (same for each skill).
-3. In Claude Code, run `/cover-letter <firm>` or `/coffee-chat-prep <name>`.
+## Install
 
-Requires macOS with Microsoft Word (for PDF export) and Python 3, with no extra packages.
+**Claude Code or Cowork** (any plugin):
+```
+/plugin marketplace add dmbriner/dana-claude-os
+/plugin install recruiting@dana-claude-os
+```
+
+Installed plugins are copied into Claude's plugin cache, so the agents and ITC skills work anywhere, but skills that read `private/` (cover-letter, coffee-chat-prep, apply-online, email-assistant, scheduling) need the cloned setup below.
+
+**Use it as your own system:** clone the repo, copy `profile.example.json` to `private/profile.json`, write `private/story.md`, and symlink the skills you want into `~/.claude/skills/` (`ln -s "$PWD/plugins/recruiting/skills/cover-letter" ~/.claude/skills/`). Requires macOS, Python 3 (no extra packages), and Microsoft Word for PDF export.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for what's next.

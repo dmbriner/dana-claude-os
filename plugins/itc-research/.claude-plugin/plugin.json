@@ -1,0 +1,15 @@
+{
+  "name": "itc-research",
+  "version": "1.0.0",
+  "description": "Equity research workbench for a student investment club: single-ticker, compare, screening, and earnings notes, thesis and catalyst tracking, Approved List materials, and a house style that learns from corrections.",
+  "author": {
+    "name": "dmbriner"
+  },
+  "homepage": "https://github.com/dmbriner/dana-claude-os",
+  "repository": "https://github.com/dmbriner/dana-claude-os",
+  "keywords": [
+    "equity-research",
+    "research-notes",
+    "investment-club"
+  ]
+}

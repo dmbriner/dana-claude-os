@@ -8,7 +8,11 @@
 - [x] Email triage, reply drafts, and Notion status sync (on request)
 - [x] career-tools MCP server: jobs from firms' own feeds, Fed, FRED, Treasury, news
 
+- [x] All skills, agents, and plugins in one repo as an installable marketplace with a shared brain (2026-11-17)
+
 ## Next
+- [ ] **Email alerts + events script** (`~/Scripts/email-alerts`) into the repo.
+- [ ] **Cowork installs from GitHub** instead of manual uploads; retire `itc-workbench` and the old `career-finance` upload.
 - [ ] **Load all ~120 firms** into `firms.json` (hedge funds, PE, boutiques, luxury).
 - [ ] **Host career-tools online** (free tier) so the 7am cloud brief can call it.
 - [ ] **Automatic status sync.** Run the email assistant's Notion sync inside the daily brief, every morning.

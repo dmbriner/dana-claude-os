@@ -5,7 +5,7 @@ description: Write and file a one-page cover letter for one of Dana's finance in
 
 # Cover letter + application packet
 
-Paths below are relative to the repo root (this file is `skills/cover-letter/SKILL.md`; resolve symlinks to find it).
+Paths below are relative to the repo root (this file is `plugins/recruiting/skills/cover-letter/SKILL.md`; resolve symlinks to find it).
 
 ## 0. Load the private context (never skip)
 - `private/profile.json`: name, contact block, letter template, career folder root (`career_root`), base resume, transcript, and Notion database IDs.
@@ -26,7 +26,7 @@ Plain, specific sentences. No invented facts. Follow every rule in `story.md`.
 
 ## 3. Build the .docx
 - Write a spec like `example-spec.json` (date, address starting "Recruiting Team", salutation, body paragraphs). The script adds the contact block and signature from `profile.json`.
-- `python3 -I skills/cover-letter/mkletter.py spec.json out.docx`
+- `python3 -I plugins/recruiting/skills/cover-letter/mkletter.py spec.json out.docx`
 - Export a PDF with Microsoft Word through AppleScript:
   ```
   with timeout of 45 seconds
@@ -42,7 +42,7 @@ Plain, specific sentences. No invented facts. Follow every rule in `story.md`.
 
 ## 3b. Tailor the resume (always)
 - Start from `base_resume` in `profile.json` (check for a newer file by modified date).
-- Write a spec `{"replace": {"<bullet prefix>": "new text" | null}, "drop_sections": ["<heading>"], "add_after": {"<bullet prefix>": ["new bullet"]}}` and run `python3 -I skills/cover-letter/tailor_resume.py base.docx spec.json out.docx`. It warns about any prefix it didn't match.
+- Write a spec `{"replace": {"<bullet prefix>": "new text" | null}, "drop_sections": ["<heading>"], "add_after": {"<bullet prefix>": ["new bullet"]}}` and run `python3 -I plugins/recruiting/skills/cover-letter/tailor_resume.py base.docx spec.json out.docx`. It warns about any prefix it didn't match.
 - Rewrite bullets around the role using only true facts; follow the per-sector rules in `story.md`.
 - Export to PDF, confirm 1 page, and save as `<Last> <First>_Resume_<Firm> <YYYY>` (.docx and .pdf) in the application folder, plus a copy in `<career_root>/Core Assets/Resumes`.
 

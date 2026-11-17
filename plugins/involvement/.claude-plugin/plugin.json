@@ -1,0 +1,15 @@
+{
+  "name": "involvement",
+  "version": "1.0.0",
+  "description": "Student-organization work, starting with a sorority Director of Academics agent: GPA check-in emails, roster upkeep, and Notion task tracking.",
+  "author": {
+    "name": "dmbriner"
+  },
+  "homepage": "https://github.com/dmbriner/dana-claude-os",
+  "repository": "https://github.com/dmbriner/dana-claude-os",
+  "keywords": [
+    "student-org",
+    "academics",
+    "notion"
+  ]
+}

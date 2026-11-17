@@ -1,0 +1,14 @@
+{
+  "name": "academics",
+  "version": "1.0.0",
+  "description": "Coursework agent for assignments, readings, and class-specific work, built to grow a skill per class.",
+  "author": {
+    "name": "dmbriner"
+  },
+  "homepage": "https://github.com/dmbriner/dana-claude-os",
+  "repository": "https://github.com/dmbriner/dana-claude-os",
+  "keywords": [
+    "school",
+    "coursework"
+  ]
+}

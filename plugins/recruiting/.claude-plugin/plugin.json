@@ -1,0 +1,16 @@
+{
+  "name": "recruiting",
+  "version": "1.0.0",
+  "description": "Finance internship recruiting: cover letters and tailored resumes, online applications, coffee-chat prep, recruiting events onto the calendar, plus a career-finance agent that routes to the right tool.",
+  "author": {
+    "name": "dmbriner"
+  },
+  "homepage": "https://github.com/dmbriner/dana-claude-os",
+  "repository": "https://github.com/dmbriner/dana-claude-os",
+  "keywords": [
+    "recruiting",
+    "cover-letter",
+    "networking",
+    "finance"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "workflow-miner",
+  "version": "1.0.0",
+  "description": "Reads past sessions to find manual work you keep repeating, fixes safe config mismatches, and drafts new skills for approval.",
+  "author": {
+    "name": "dmbriner"
+  },
+  "homepage": "https://github.com/dmbriner/dana-claude-os",
+  "repository": "https://github.com/dmbriner/dana-claude-os",
+  "keywords": [
+    "automation",
+    "meta",
+    "workflow"
+  ]
+}

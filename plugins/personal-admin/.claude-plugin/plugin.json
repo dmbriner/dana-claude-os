@@ -1,0 +1,16 @@
+{
+  "name": "personal-admin",
+  "version": "1.0.0",
+  "description": "Day-to-day admin: inbox triage and reply drafts in your own voice, real availability across every calendar, calendar holds, and a planning agent for tasks and files.",
+  "author": {
+    "name": "dmbriner"
+  },
+  "homepage": "https://github.com/dmbriner/dana-claude-os",
+  "repository": "https://github.com/dmbriner/dana-claude-os",
+  "keywords": [
+    "email",
+    "calendar",
+    "scheduling",
+    "admin"
+  ]
+}

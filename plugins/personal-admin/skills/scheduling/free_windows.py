@@ -26,7 +26,7 @@ from datetime import date, datetime, time, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(p for p in Path(__file__).resolve().parents if (p / ".claude-plugin" / "marketplace.json").exists())
 
 
 def load_settings():

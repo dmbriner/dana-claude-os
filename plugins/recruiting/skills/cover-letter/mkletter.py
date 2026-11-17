@@ -7,7 +7,7 @@ import json, os, sys, zipfile, re
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(p for p in Path(__file__).resolve().parents if (p / ".claude-plugin" / "marketplace.json").exists())
 PROFILE = json.load(open(ROOT / "private" / "profile.json"))
 TPL = os.path.expanduser(PROFILE["letter_template"])
 NAME = PROFILE["name"]

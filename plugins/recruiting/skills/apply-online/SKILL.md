@@ -5,7 +5,7 @@ description: Fill out an online job application (Workday, Greenhouse, Oleeo/tal.
 
 # Fill an online application
 
-Paths are relative to the repo root (this file is `skills/apply-online/SKILL.md`; resolve symlinks to find it).
+Paths are relative to the repo root (this file is `plugins/recruiting/skills/apply-online/SKILL.md`; resolve symlinks to find it).
 
 ## 0. Load before touching the browser
 - `private/application-answers.md`: every standard answer (contact, eligibility, education, work history), school-picker quirks, and the list of fields that are always Dana's call. **If a form asks something not in this file, ask Dana (AskUserQuestion, batched), then append the answer under "Learned answers".**

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dana-claude-os",
+  "description": "One student's personal operating system for Claude: recruiting, equity research, admin, school, and org work as installable plugins that share one private context folder.",
+  "owner": {
+    "name": "dmbriner"
+  },
+  "plugins": [
+    {
+      "name": "recruiting",
+      "description": "Finance internship recruiting: cover letters and tailored resumes, online applications, coffee-chat prep, recruiting events onto the calendar, plus a career-finance agent that routes to the right tool.",
+      "version": "1.0.0",
+      "source": "./plugins/recruiting",
+      "category": "productivity",
+      "homepage": "https://github.com/dmbriner/dana-claude-os"
+    },
+    {
+      "name": "itc-research",
+      "description": "Equity research workbench for a student investment club: single-ticker, compare, screening, and earnings notes, thesis and catalyst tracking, Approved List materials, and a house style that learns from corrections.",
+      "version": "1.0.0",
+      "source": "./plugins/itc-research",
+      "category": "productivity",
+      "homepage": "https://github.com/dmbriner/dana-claude-os"
+    },
+    {
+      "name": "personal-admin",
+      "description": "Day-to-day admin: inbox triage and reply drafts in your own voice, real availability across every calendar, calendar holds, and a planning agent for tasks and files.",
+      "version": "1.0.0",
+      "source": "./plugins/personal-admin",
+      "category": "productivity",
+      "homepage": "https://github.com/dmbriner/dana-claude-os"
+    },
+    {
+      "name": "involvement",
+      "description": "Student-organization work, starting with a sorority Director of Academics agent: GPA check-in emails, roster upkeep, and Notion task tracking.",
+      "version": "1.0.0",
+      "source": "./plugins/involvement",
+      "category": "productivity",
+      "homepage": "https://github.com/dmbriner/dana-claude-os"
+    },
+    {
+      "name": "academics",
+      "description": "Coursework agent for assignments, readings, and class-specific work, built to grow a skill per class.",
+      "version": "1.0.0",
+      "source": "./plugins/academics",
+      "category": "productivity",
+      "homepage": "https://github.com/dmbriner/dana-claude-os"
+    },
+    {
+      "name": "workflow-miner",
+      "description": "Reads past sessions to find manual work you keep repeating, fixes safe config mismatches, and drafts new skills for approval.",
+      "version": "1.0.0",
+      "source": "./plugins/workflow-miner",
+      "category": "productivity",
+      "homepage": "https://github.com/dmbriner/dana-claude-os"
+    }
+  ]
+}
