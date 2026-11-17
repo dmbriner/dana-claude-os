@@ -25,6 +25,7 @@ Follow the resume rules in memory (`resume-full-page`): one page, filled to the 
 - **Dates:** type digits straight into the MM/YYYY box (e.g. `102026`).
 - **Files:** use `file_upload` on the hidden file-input ref. Never click "Select files", because it opens a native picker.
 - **Back on Workday** can open a "Discard Application?" dialog when the current page has unsaved edits. Click **Continue** (never Discard), **Save and Continue** first, then go back.
+- **Prefilled forms (Oracle/Lazard, returning applicants):** fields and attachments carry over from the last application. Before typing, press cmd+a in each text field so you replace the value instead of appending to it. Remove the old resume and cover letter (the Remove button can need two clicks), then upload the new files. Close the "AI Work Summary" pop-up with Cancel.
 - After every page, read `get_page_text` and fix anything blank or wrong before moving on. `get_page_text` doesn't show text-input values; check those with a zoomed screenshot.
 - Add every school in `application-answers.md` (including high school) and every job, with bullets from the tailored resume, even when the resume is attached.
 
