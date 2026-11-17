@@ -1,5 +1,7 @@
-# Personal data never leaves this Mac
+# Personal data stays out of git (synced via iCloud: Personal Admin/Claude)
+private
 private/
+private.bak-local/
 *.docx
 *.pdf
 *.xlsx
