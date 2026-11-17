@@ -18,7 +18,7 @@ Load `private/profile.json` from the repo root (resolve this file's symlink). It
 1. For the date range, call `list_events` on **every** calendar in `profile.calendars`, ordered by start time.
 2. Write a JSON file in the scratchpad: `{"from": "YYYY-MM-DD", "to": "YYYY-MM-DD", "events": [{"start", "end", "label", "kind"}]}`, with `kind` set to `busy`, `offer` (Reference holds), or `free`. Copy `start` and `end` exactly as the API returns them.
 3. Run `python3 skills/scheduling/free_windows.py <file> [--also America/Los_Angeles]`. Add `--also` whenever the other person is in another time zone, and state times in *their* zone in the email.
-4. Choose 3 windows on different days, each 60–180 minutes, that don't overlap someone else's offer when there's a choice. Don't suggest a window that starts within 15 minutes of the end of a class across campus.
+4. Choose 3 windows on different days, each 60–180 minutes. Overlapping times already offered to someone else is fine (Dana's call); never steer around them. Always add the new `CC:` holds. Don't suggest a window that starts within 15 minutes of the end of a class across campus.
 
 ## 2. Find out if a call is booked
 Search **all** inboxes before saying something isn't scheduled:
