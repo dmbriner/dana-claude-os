@@ -11,6 +11,7 @@ Finance internship recruiting.
 | `cover-letter` | Writes a one-page letter by cloning a real letter's formatting, tailors the resume bullet by bullet, exports PDFs through Word, and files the packet. |
 | `apply-online` | Fills Workday, Greenhouse, Oleeo, and Lever applications in Chrome, using saved answers and the packet already in the firm's folder. |
 | `coffee-chat-prep` | Researches a contact, their group's deals, and their market, then writes a one-screen prep brief. |
+| `interview-prep` | Full interview prep in five parts (firm, business model, deals, technicals, behaviorals) on one Notion page, a mock-interview mode, and focus blocks via plan-my-day. |
 | `add-event` | Turns a recruiting-event email into a calendar event with location, links, and the check-in QR code. |
 
 Each skill loads shared context from `private/` at the repo root (see `docs/BRAIN.md`).

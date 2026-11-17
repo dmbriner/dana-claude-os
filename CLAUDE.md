@@ -11,6 +11,7 @@ Check this table before doing a task by hand.
 | Cover letter, tailored resume, application packet | `cover-letter` skill | recruiting |
 | Fill out an online application | `apply-online` skill | recruiting |
 | Prep for a coffee chat or call | `coffee-chat-prep` skill | recruiting |
+| Interview prep: firm, deals, technicals, behaviorals, mock interview | `interview-prep` skill | recruiting |
 | Event email → Career & Finance calendar | `add-event` skill | recruiting |
 | Recruiting prep, technicals, personal finance (general) | `career-finance` agent | recruiting |
 | Check email, triage, draft a reply | `email-assistant` skill | personal-admin |
