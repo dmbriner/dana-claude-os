@@ -1,6 +1,6 @@
 ---
 name: scheduling
-description: Find Dana's real availability across every calendar and inbox, figure out what's actually booked vs. only offered, and keep the Reference calendar in sync. Use when Dana asks "when am I free", "what times should I offer <name>", "when is my call with <name>", "did <name> book a time", or any email that proposes meeting times; the email-assistant skill calls this before drafting times.
+description: Find Dana's real availability across every calendar and inbox, figure out what's actually booked vs. only offered, and keep the Reference calendar in sync. Use when Dana asks "when am I free", "what times should I offer <name>", "when is my call with <name>", "did <name> book a time", or any email that proposes meeting times; the email-assistant skill calls this before drafting times. Also use when Dana says "clear my holds", "delete the times I blocked for <name>", or "clean up my calendar", and whenever someone confirms a time or a call has happened.
 ---
 
 # Scheduling
@@ -35,6 +35,17 @@ A call counts as booked once **Dana's latest sent message accepts a specific tim
   2. Delete that person's other `CC:` holds.
   3. Flag any overlap with booked or pending events.
 - **Ask Dana before deleting** anything that isn't a `CC:` hold you created or that Dana told you to clear.
+
+## 3b. Clear stale holds (run every time this skill or email-assistant runs)
+Holds are only for times that are still in play. Once a person has booked a time, held a call, or said no, their holds are clutter. Sweep the Reference calendar from today through the next 30 days:
+1. List every event whose title starts with `CC:` (or is a bare name). Split names on commas, since one hold can name several people (e.g. `CC: Robert Forlines, Jack Young`).
+2. For each name, it's **done** if any of these are true:
+   - a call with them is booked on Personal or Career & Finance (any date, past or upcoming),
+   - their Notion People row has a Call Date, or Status is Call Scheduled / Thank You Email Sent / Abandoned,
+   - Dana's latest sent email to them accepts a time, or they declined.
+3. For a done name: delete the hold if it names only that person. If it names others too, edit the title to drop just that name. Don't touch holds for anyone still pending.
+4. Delete with `notificationLevel: NONE`. Skip generic holds with no name ("Coffee Chat Block") and ask about them instead.
+5. Report what you cleared in one line, e.g. "Cleared 2 holds for Donna Winston (11/18, 11/19)."
 
 ## 4. Report
 Say what's booked, giving the time in ET and the other person's zone. Say where you found it, e.g. "iCloud Sent, 11/16 12:40 PM". List the open windows you picked and anything conflicting or pending. Keep it short.
