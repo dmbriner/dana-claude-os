@@ -24,7 +24,7 @@ Load `private/profile.json` from the repo root (resolve this file's symlink). It
 Search **all** inboxes before saying something isn't scheduled:
 - Gmail: the `search_threads` connector, on name, last name, firm, and assistant name. Include `in:sent`.
 - iCloud and other Mail.app accounts: `skills/scheduling/mail.sh search "<last name or domain>"` (default 10 days; a longer range is slow, so run it in the background), which covers Inbox, Sent Messages, and filed folders. Then `mail.sh read <account> <mailbox> <id>` on the newest hits, **including Dana's own sent replies**.
-- UNC/Kenan-Flagler email isn't connected. If nothing turns up, say "I can't see your school inbox. Did this go there?" Never say "not booked".
+- The UNC (dbriner@unc.edu) and Kenan-Flagler accounts are in Mail.app, so `mail.sh` covers them. Recruiters often write to the UNC inbox. If nothing turns up anywhere, ask Dana where the email went. Never say "not booked".
 
 A call counts as booked once **Dana's latest sent message accepts a specific time**, or a calendar invite arrives. Assistant (EA) emails offering times aren't bookings.
 
