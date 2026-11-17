@@ -1,6 +1,6 @@
 # Dana's Claude OS
 
-This repo (`~/Investment Banking Assistant`, GitHub `dmbriner/dana-claude-os`) holds every skill, agent, plugin, and MCP server Dana has built. This file is linked to `~/.claude/CLAUDE.md`, so it loads in every session.
+This repo (`~/dana-claude-os`, GitHub `dmbriner/dana-claude-os`) holds every skill, agent, plugin, and MCP server Dana has built. This file is linked to `~/.claude/CLAUDE.md`, so it loads in every session.
 
 ## Which tool handles what
 
