@@ -15,7 +15,8 @@ Check this table before doing a task by hand.
 | Recruiting prep, technicals, personal finance (general) | `career-finance` agent | recruiting |
 | Check email, triage, draft a reply | `email-assistant` skill | personal-admin |
 | When am I free, offer times, calendar holds | `scheduling` skill | personal-admin |
-| Plan my day or week, organize files | `personal-admin` agent | personal-admin |
+| Brain dump, plan my day, focus blocks, wrap up my day | `plan-my-day` skill | personal-admin |
+| Organize files, general life admin | `personal-admin` agent | personal-admin |
 | ITC note, model, screen, earnings update | `itc-researcher` agent + ITC skills | itc-research |
 | Review a research draft | `itc-reviewer` agent | itc-research |
 | Alpha Phi academics work | `alpha-phi` agent | involvement |
