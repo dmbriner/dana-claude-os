@@ -31,6 +31,7 @@ All skills read the same private context, so none of them starts cold. It lives 
 ## Rules for changing this repo
 
 - **Every new skill, agent, or plugin goes here**, whether it was made in Claude Code or Cowork. File it under the right `plugins/<area>/` (skills in `skills/<name>/SKILL.md`, agents in `agents/<name>.md`), add a row to the table above, then commit and push.
+- **Plugins by other people that Dana keeps** are linked, never copied: add an entry to `.claude-plugin/marketplace.json` with a `git-subdir` or `url` source pointing to the original repo, and a row in `docs/STACK.md`. Names starting with `claude-` aren't allowed there, so list those in STACK.md only. When Dana turns a plugin off, move it to the "Turned off" list in STACK.md.
 - A new area of life gets a new plugin: make `plugins/<area>/.claude-plugin/plugin.json` and add it to `.claude-plugin/marketplace.json`.
 - Skills are symlinked into `~/.claude/skills/<name>`, so edits take effect right away.
 - **No personal data in tracked files**: no emails, phone numbers, Notion or calendar IDs, or other people's names. Put those in `private/profile.json` and point to them. Run `git grep -nE '@[a-z0-9-]+\.(com|edu)|[0-9a-f]{32}'` before every commit.

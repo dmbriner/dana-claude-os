@@ -13,6 +13,10 @@ A personal operating system for [Claude](https://claude.com/claude-code) built b
 | [**academics**](plugins/academics) | Coursework agent, growing a skill per class |
 | [**workflow-miner**](plugins/workflow-miner) | Reads past sessions, finds manual work you keep repeating, and drafts new skills |
 
+## Plugins by other people I use
+
+Linked from their original repos, not copied: investment-banking, equity-research, financial-analysis, notion, google-drive, pdf-viewer, productivity, canva, superpowers, skill-creator, obsidian. Full list, install steps, and what I turned off: [docs/STACK.md](docs/STACK.md).
+
 ## Also in this repo
 
 | Part | What it does |

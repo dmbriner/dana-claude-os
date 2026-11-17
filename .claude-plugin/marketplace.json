@@ -53,6 +53,115 @@
       "source": "./plugins/workflow-miner",
       "category": "productivity",
       "homepage": "https://github.com/dmbriner/dana-claude-os"
+    },
+    {
+      "name": "investment-banking",
+      "description": "CIMs, teasers, buyer lists, merger models, pitch decks (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/financial-services-plugins.git",
+        "path": "plugins/vertical-plugins/investment-banking"
+      },
+      "category": "finance"
+    },
+    {
+      "name": "equity-research",
+      "description": "Earnings analysis, initiations, theses, catalysts, sector overviews (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/financial-services-plugins.git",
+        "path": "plugins/vertical-plugins/equity-research"
+      },
+      "category": "finance"
+    },
+    {
+      "name": "financial-analysis",
+      "description": "DCF, LBO, comps, 3-statement models, deck and Excel authoring (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/financial-services-plugins.git",
+        "path": "plugins/vertical-plugins/financial-analysis"
+      },
+      "category": "finance"
+    },
+    {
+      "name": "notion",
+      "description": "Search, read, and write Notion pages and databases (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/claude-tag-plugins.git",
+        "path": "notion"
+      },
+      "category": "connectors"
+    },
+    {
+      "name": "google-drive",
+      "description": "Google Drive files (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/claude-tag-plugins.git",
+        "path": "google-drive"
+      },
+      "category": "connectors"
+    },
+    {
+      "name": "pdf-viewer",
+      "description": "Open, annotate, fill, and sign PDFs (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/knowledge-work-plugins.git",
+        "path": "pdf-viewer"
+      },
+      "category": "tools"
+    },
+    {
+      "name": "productivity",
+      "description": "Task and memory management (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/knowledge-work-plugins.git",
+        "path": "productivity"
+      },
+      "category": "tools"
+    },
+    {
+      "name": "canva",
+      "description": "Create and edit Canva designs (by Canva, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/canva-sdks/canva-skills.git",
+        "path": "plugins/canva"
+      },
+      "category": "tools"
+    },
+    {
+      "name": "superpowers",
+      "description": "Brainstorming, planning, debugging, and verification workflows (by Jesse Vincent, pulled from the original repo)",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/obra/superpowers.git"
+      },
+      "category": "workflow"
+    },
+    {
+      "name": "skill-creator",
+      "description": "Create, test, and improve skills (by Anthropic, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/anthropics/claude-plugins-official.git",
+        "path": "plugins/skill-creator"
+      },
+      "category": "workflow"
+    },
+    {
+      "name": "obsidian",
+      "description": "Obsidian notes, bases, and canvas (by Obsidian, pulled from the original repo)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/obsidianmd/obsidian-skills.git",
+        "path": "plugins/obsidian"
+      },
+      "category": "tools"
     }
   ]
 }
