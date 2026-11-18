@@ -28,16 +28,8 @@ Pull every to-do out of Dana's message, however messy. For each one:
 - Use 25-minute blocks with 5 minutes between them, and a 10-minute break after every 2 blocks. A 50-minute task becomes two blocks ("round 1 of 2").
 - Order by deadline first, then hardest work in the morning, email and admin first thing (it clears the head), and low-energy reading at night.
 - **Cap the day at about 6 to 8 blocks.** If there's more, say what's moving to tomorrow. A plan Dana can finish beats a full one.
-- **Show the whole day as one timeline with times**: one table per day (Time | What), in time order, covering *everything*: classes, events, meals, and focus blocks together, not just the new blocks. Mark fixed events with 📍 and conflicts with ⚠️. Emoji per block type: ✉️ email, 📐 math, 📊 finance class, 🎤 behaviorals, 📖 reading/technicals, 🔎 research, 🔁 circle back.
-- **Whenever anything changes mid-chat, show the updated timeline again.** Don't make Dana piece it together from earlier messages.
+- Show the plan as one small table per day (When | Block), with an emoji per block type: ✉️ email, 📐 math, 📊 finance class, 🎤 behaviorals, 📖 reading/technicals, 🔎 research.
 - Ask once whether to put it on the calendar (skip the question if Dana already said yes this session).
-
-## 3b. Remember random things, and circle back
-Dana will drop random things mid-chat ("oh, also…", "remind me…", "I need to…"). Never let one get lost.
-- **Capture right away**: every one becomes a Notion task in the same turn (Do Date only if Dana gave a time). Confirm in one line: "Saved: <thing>."
-- **🔁 Come back to**: end every planning reply with a short numbered list of the open loops: unanswered questions, conflicts Dana hasn't picked, saved items without a time. Carry it forward until each one is resolved, so nothing drops when the chat moves on.
-- **Daily circle-back block**: put one 10-minute `🔁 Circle back` event on the calendar each day (evening by default), with the open-loop list in its description. In that block, go through each undated task: give it a day, keep parking it, or drop it.
-- In "wrap up my day", show the 🔁 list again and resolve or carry each item.
 
 ## 4. Put it on the calendar
 For each block, create an event on `calendars.focus` (fall back to `calendars.personal` if there's no focus calendar):
