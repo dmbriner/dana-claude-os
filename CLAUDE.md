@@ -22,6 +22,7 @@ Check this table before doing a task by hand.
 | Organize files, general life admin | `personal-admin` agent | personal-admin |
 | ITC note, model, screen, earnings update | `itc-researcher` agent + ITC skills | itc-research |
 | Review a research draft | `itc-reviewer` agent | itc-research |
+| Source check: verify every number in a model/note, trace to primary sources | `source-check` skill | itc-research |
 | Alpha Phi academics work | `alpha-phi` agent | involvement |
 | Coursework, assignments | `academics` agent | academics |
 | "What do I keep doing by hand?" | `workflow-miner` agent | workflow-miner |
