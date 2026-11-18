@@ -23,9 +23,13 @@ Follow the resume rules in memory (`resume-full-page`): one page, filled to the 
 - **Dropdowns (Workday buttons):** `form_input` doesn't work, and batched coordinate clicks pick the wrong row because the page scrolls when a menu opens. Open the dropdown, take a **full-resolution** screenshot, click the option, then confirm the value. Go one dropdown at a time.
 - **Search pickers** (school, field of study, "how did you hear"): type a short query and press Enter. If nothing matches, try a shorter name, then "Other".
 - **Dates:** type digits straight into the MM/YYYY box (e.g. `102026`).
+- **"Not listed? Click here to enter" pickers (Citadel employer/school):** type the *full* name first, then click "Not listed", then click a blank area. Clicking "Not listed" and then editing the text, or tabbing out, clears the field.
+- **Word PDF export via AppleScript:** work in `~/Library/Containers/com.microsoft.Word/Data/Documents/`. Files in the scratchpad or /tmp trigger a Grant File Access prompt that hangs AppleScript.
 - **Files:** use `file_upload` on the hidden file-input ref. Never click "Select files", because it opens a native picker.
 - **Back on Workday** can open a "Discard Application?" dialog when the current page has unsaved edits. Click **Continue** (never Discard), **Save and Continue** first, then go back.
 - **Prefilled forms (Oracle/Lazard, returning applicants):** fields and attachments carry over from the last application. Before typing, press cmd+a in each text field so you replace the value instead of appending to it. Remove the old resume and cover letter (the Remove button can need two clicks), then upload the new files. Close the "AI Work Summary" pop-up with Cancel.
+- **Session timeout:** a Workday session left idle for about an hour silently expires. Save and Continue then shows a list of "Page Error / VPS|..." codes and every request returns HTTP 400. Reloading lands on Sign In, and the unsaved page is lost. Have the PDFs ready before opening the form, and save each page promptly.
+- **PDF export:** if Word's AppleScript `save as` fails with -1708 (Word 16.115+), convert with LibreOffice: `/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf --outdir <dir> <docx>`. LibreOffice spaces lines slightly wider than Word, so render it to PNG and confirm one page with no short last lines before uploading.
 - After every page, read `get_page_text` and fix anything blank or wrong before moving on. `get_page_text` doesn't show text-input values; check those with a zoomed screenshot.
 - Add every school in `application-answers.md` (including high school) and every job, with bullets from the tailored resume, even when the resume is attached.
 
