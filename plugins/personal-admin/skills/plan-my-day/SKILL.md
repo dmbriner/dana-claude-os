@@ -38,6 +38,8 @@ Dana will drop random things mid-chat ("oh, also…", "remind me…", "I need to
 - **🔁 Come back to**: end every planning reply with a short numbered list of the open loops: unanswered questions, conflicts Dana hasn't picked, saved items without a time. Carry it forward until each one is resolved, so nothing drops when the chat moves on.
 - **Daily circle-back block**: put one 10-minute `🔁 Circle back` event on the calendar each day (evening by default), with the open-loop list in its description. In that block, go through each undated task: give it a day, keep parking it, or drop it.
 - In "wrap up my day", show the 🔁 list again and resolve or carry each item.
+- **Keep it light on usage**: a capture is one Notion create call, with no extra lookups. The 🔁 list lives in the reply text and the circle-back event's description, so it costs no extra tool calls.
+- **Before asking Dana about a meeting time, check her inboxes** (Gmail, plus Mail.app accounts such as the Investors Trust one) for the thread. Ask only if the email doesn't settle it.
 
 ## 4. Put it on the calendar
 For each block, create an event on `calendars.focus` (fall back to `calendars.personal` if there's no focus calendar):
