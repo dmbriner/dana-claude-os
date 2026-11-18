@@ -18,6 +18,7 @@ Check this table before doing a task by hand.
 | Check email, triage, draft a reply | `email-assistant` skill | personal-admin |
 | When am I free, offer times, calendar holds | `scheduling` skill | personal-admin |
 | Brain dump, plan my day, focus blocks, wrap up my day | `plan-my-day` skill | personal-admin |
+| Missed blocks, "I'm behind", redo my day (catch-up + replan legwork) | `day-planner` agent (draft → apply), called by `plan-my-day` | personal-admin |
 | Park a tangent to come back to (/side-note) | `side-note` skill + `side-note` agent (Haiku, background) | personal-admin |
 | Show all parked side notes (/open-threads) | `open-threads` skill | personal-admin |
 | Organize files, general life admin | `personal-admin` agent | personal-admin |
