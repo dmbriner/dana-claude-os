@@ -13,6 +13,7 @@ Check this table before doing a task by hand.
 | Prep for a coffee chat or call | `coffee-chat-prep` skill | recruiting |
 | Interview prep: firm, deals, technicals, behaviorals, mock interview | `interview-prep` skill | recruiting |
 | Event email → Career & Finance calendar | `add-event` skill | recruiting |
+| Networking / cold outreach email draft (Kenan-Flagler Mail) | `outreach-email` skill | recruiting |
 | Recruiting prep, technicals, personal finance (general) | `career-finance` agent | recruiting |
 | Check email, triage, draft a reply | `email-assistant` skill | personal-admin |
 | When am I free, offer times, calendar holds | `scheduling` skill | personal-admin |
