@@ -26,7 +26,7 @@ Sections, in order:
 
 1. **Today in 30 seconds.** 3–5 bullets on what matters most today.
 2. **Apply now.** Today's new postings, plus Opportunities due within 14 days still Not started or In progress: firm, role, city, deadline, link. High priority first.
-3. **Key market prices.** Latest close and 1-day % change: S&P 500, Dow, Nasdaq, Russell 2000, VIX, 2y and 10y Treasury yields (bp change), DXY, EUR/USD, WTI, Brent, gold, Bitcoin. Link each row to its Yahoo Finance quote page. Note the as-of time.
+3. **Key market prices.** Latest close and 1-day % change: S&P 500, Dow, Nasdaq, Russell 2000, VIX, 2y and 10y Treasury yields (change in percentage points, not bp), DXY, EUR/USD, WTI, Brent, gold, Bitcoin. Link each row to its Yahoo Finance quote page. Note the as-of time.
 4. **Fed and economic releases.** In the news window or scheduled today: FOMC statements, minutes, dot plot; Fed speeches and testimony; Beige Book; H.4.1/H.8; financial stability and supervision reports; CPI, PPI, jobs, PCE, GDP, retail sales, claims. Headline vs. expectations, one line on why it matters, links to federalreserve.gov, bls.gov, bea.gov, or treasury.gov.
 5. **Research from followed firms.** Pieces published in the news window from Goldman Sachs Insights, J.P. Morgan Eye on the Market and Guide to the Markets, BlackRock Investment Institute, KKR Insights, Bank of America Institute, Morgan Stanley Ideas, Deutsche Bank Research, Apollo's Daily Spark, Blackstone Insights. Title, one-line takeaway, link. Gated: link the landing page and mark '(login)'. Never get around a paywall.
 6. **Major market stories.** 3–5 stories published in the news window (Reuters, Bloomberg, WSJ, FT, CNBC, Yahoo Finance), one line each, with links.

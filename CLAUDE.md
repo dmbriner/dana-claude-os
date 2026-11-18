@@ -30,6 +30,11 @@ Check this table before doing a task by hand.
 | Live job postings, Fed, FRED, Treasury, news | `career-tools` MCP | mcp/career-tools |
 | Quotes, price history, SEC filings | `market-tools` MCP | mcp/market-tools |
 
+## How to write numbers
+
+- **No basis points.** Never write "bp" or "bps." State rate and yield changes in percentage points: "rose 0.10 percentage points (4.10% to 4.20%)," not "rose 10 bp." Give the before and after levels when you have them.
+- Use one unit per explanation. Don't mix "pt" and "bp" or "%" and "points" in the same passage.
+
 ## Shared brain
 
 All skills read the same private context, so none of them starts cold. It lives in `private/` at the repo root: `profile.json` (Notion IDs, calendar IDs, paths), `story.md` (background and talking points), and the email voice and learned-edits files. `private/` is git-ignored and actually lives in iCloud (`Personal Admin/Claude/Assistant Private`). See `docs/BRAIN.md`.
