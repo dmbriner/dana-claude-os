@@ -10,7 +10,8 @@ Dana has ADHD, and tangents come up mid-task. This skill saves the tangent in a 
 Load `private/profile.json` from the repo root (resolve this file's symlink, walk up to `.claude-plugin/marketplace.json`) and use `notion.tasks`.
 
 ## Save (`/side-note <thing>`)
-- Make **one** Notion create call in Tasks: Name `🔁 <thing>` (short, verb first if it's a to-do), Status `Not started`, Area guessed from the words (default Personal). Leave Do Date empty unless Dana gave a time. Don't look anything up first.
+- **Preferred:** dispatch the `side-note` agent in the background with the exact text, say `Parking: <thing>.`, and carry on with the current task in the same turn. The agent runs on Haiku, so it's cheap and never pulls the main chat off course.
+- If agents aren't available, make **one** Notion create call in Tasks: Name `🔁 <thing>` (short, verb first if it's a to-do), Status `Not started`, Area guessed from the words (default Personal). Leave Do Date empty unless Dana gave a time. Don't look anything up first.
 - Reply in one line: `Parked: <thing>.` Then go straight back to whatever you were doing before. Don't start working on the side note.
 
 ## List (`/side-note list`)

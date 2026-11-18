@@ -17,7 +17,7 @@ Check this table before doing a task by hand.
 | Check email, triage, draft a reply | `email-assistant` skill | personal-admin |
 | When am I free, offer times, calendar holds | `scheduling` skill | personal-admin |
 | Brain dump, plan my day, focus blocks, wrap up my day | `plan-my-day` skill | personal-admin |
-| Park a tangent to come back to (/side-note) | `side-note` skill | personal-admin |
+| Park a tangent to come back to (/side-note) | `side-note` skill + `side-note` agent (Haiku, background) | personal-admin |
 | Organize files, general life admin | `personal-admin` agent | personal-admin |
 | ITC note, model, screen, earnings update | `itc-researcher` agent + ITC skills | itc-research |
 | Review a research draft | `itc-reviewer` agent | itc-research |
