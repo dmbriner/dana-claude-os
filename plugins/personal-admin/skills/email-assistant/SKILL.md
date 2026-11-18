@@ -46,6 +46,14 @@ Add a line to the row's page: `<date> – <what the email said> (Gmail: <subject
 - No "I hope this finds you well", "feel free to", "don't hesitate to", or AI words (leverage, navigate, delve, foster, robust).
 - Create it as a Gmail draft in the same thread. Log it in `private/email-drafts-log.md`: date, thread, recipient, subject, draft text, status `pending`.
 
+## 3b. Outreach: verify before suggesting or drafting
+Before suggesting anyone for networking outreach, or drafting a cold or coffee-chat email, check every person on the list. Only suggest people who pass all three checks, and say in one line why anyone was left out.
+1. **Has Dana already emailed them?** Search Gmail (sent and received) and every Mail.app account (Kenan-Flagler, UNC, iCloud, Investors Title) by name and email address. If there's any thread, they're not new outreach: either it's a follow-up, or skip them. Fix the person's Status in People if it's out of date.
+2. **Do they still work where People says?** Run one quick web or LinkedIn search for name plus firm. If they've moved, update People and re-judge whether they're worth contacting.
+3. **Is their firm coming up on Dana's calendar?** Check Career & Finance (and Personal) for the next 4 weeks for an info session, campus visit, panel, or trek at that firm. If one is coming, don't cold-email for a coffee chat. Wait until after the in-person event, add a task dated the day after it ("Email <name> after <event>, mention the event"), and say so.
+
+Offered times in outreach emails are holds, not events. The same slot can go to many people at once. Only real booked events rule a time out.
+
 ## 4. Learn from edits
 Each run, check `pending` drafts in the log against Dana's Sent mail for that thread:
 - sent unchanged → `sent-as-is`
