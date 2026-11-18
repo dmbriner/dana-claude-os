@@ -47,11 +47,11 @@ Dana
 - Show Dana the text in chat before or while saving the draft.
 
 ## 4. Resume
-Pick in this order:
-1. The resume from Dana's application to that firm: `<career_root>/Recruitment/Firms/<Firm>/Applications/<program>/*.pdf`.
-2. A firm-tailored version in `<career_root>/Core Assets/Resumes/`.
-3. The newest general full-page PDF in `Core Assets/Resumes/`.
-Attach the PDF, never the .docx.
+**The file name must never name a different firm.** The recipient sees the attachment name, so `Resume_Roark 2028.pdf` going to someone at Permira tells them the resume was made for Roark. Pick in this order:
+1. The resume from Dana's application to *that same firm*: `<career_root>/Recruitment/Firms/<Firm>/Applications/<program>/*.pdf`.
+2. A version tailored to *that same firm* in `<career_root>/Core Assets/Resumes/`.
+3. Otherwise, the newest general PDF with no firm in the name (e.g. `Core Assets/Resumes/Versions/Dana Briner Resume <date>.pdf`). If the only recent PDF has another firm in its name, ask Dana. Don't attach it.
+Attach the PDF, never the .docx. Before saving, check that the attachment name contains the recipient's firm or no firm at all.
 
 ## 5. Save the draft (Kenan-Flagler, Mail.app)
 Run with `osascript - "<resume path>"`, putting the body in a variable:
