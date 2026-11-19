@@ -296,6 +296,15 @@ if(has(R)) out += sec('recruiting','Getting in','Recruiting', `
   ${has(R.postings)?`<div class="tbl"><table><thead><tr><th>Open role</th><th>Location</th><th>Deadline</th><th>What it asks for</th></tr></thead><tbody>${R.postings.map(p=>`<tr><td>${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.role)}</a>`:esc(p.role)}</td><td>${esc(p.location||'')}</td><td class="mono">${esc(p.deadline||'')}</td><td>${fmt(p.notes||'')}</td></tr>`).join('')}</tbody></table></div>`:''}
   ${R.comp?panel('Compensation', `<p>${fmt(R.comp)}</p>`):''}`);
 
+// assessment + one-way video (optional): {due, facts, strategy, checklist, video:[{q,a,tip}], video_tips}
+const X = D.assessment || {};
+if(has(X)) out += sec('assessment','Next step','Assessment & video', `
+  ${X.due?`<p class="pill warn" style="display:inline-block;margin-bottom:12px">Due ${fmt(X.due)}</p>`:''}
+  <div class="grid2">${panel('What the tests are', kv(X.facts))}${panel('How to take them', list(X.strategy))}</div>
+  ${has(X.checklist)?panel('Before you start', list(X.checklist)):''}
+  ${has(X.video)?`<h3 style="margin:18px 0 8px">Video questions: click for your answer</h3><div class="qts">${X.video.map((v,i)=>`<details class="qt"><summary><span class="mono muted">${i+1}</span><span>${fmt(v.q)}</span></summary><div class="a">${fmt(v.a||'')}${v.tip?`<p class="muted" style="margin-top:8px">${fmt(v.tip)}</p>`:''}</div></details>`).join('')}</div>`:''}
+  ${has(X.video_tips)?panel('On camera', list(X.video_tips)):''}`, 'Assessment');
+
 // angles + questions
 const A = D.angles || {};
 if(has(A)) out += sec('angles','Your pitch','Why you, why here', `<div class="grid2">${panel('Why this firm', list(A.why_firm))}${panel('Why this group', list(A.why_group))}${panel('Links to your experience', list(A.links))}</div>`, 'Your pitch');

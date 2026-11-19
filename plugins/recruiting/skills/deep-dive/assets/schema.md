@@ -100,3 +100,13 @@
 - **Stacked bars:** give each `series` row `parts: [{"label": "LP-led", "value": 125, "display": "$125bn"}, ...]`. Bars stack and a legend appears.
 - **Grouped bars** (parts that don't add up, e.g. capital vs. volume): same, plus `"grouped": true` on the chart.
 - **Multiple lines:** `points` is the first line (name it with `label`), and `lines: [{"label": "Buyout", "points": [...]}]` adds more on the same scale.
+
+## Assessment and one-way video (optional section)
+```json
+"assessment": {"due": "Sun Nov 22, 12 PM ET",
+  "facts": [{"k": "CCAT", "v": "50 questions in 15 min", "src": 1}],
+  "strategy": ["pacing and skip rules"], "checklist": ["quiet room, ID"],
+  "video": [{"q": "Why Roark?", "a": "Dana's spoken answer", "tip": "how to deliver it"}],
+  "video_tips": ["look at the lens"]}
+```
+Every video question renders as a toggle with the answer inside.
