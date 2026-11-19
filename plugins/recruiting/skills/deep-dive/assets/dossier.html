@@ -114,6 +114,14 @@ details.card .body{padding:0 18px 18px;display:grid;gap:18px;border-top:1px soli
 .org .node span{font-size:12px;color:var(--muted)}
 .org .node.me{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .org .bar{width:1px;height:14px;background:var(--rule)}
+/* toggles: every question opens to its answer */
+details.qt{border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+details.qt>summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:start;font-weight:600}
+details.qt>summary::-webkit-details-marker{display:none}
+details.qt>summary::after{content:"+";font:500 18px/1 var(--mono);color:var(--muted)}
+details.qt[open]>summary::after{content:"–"}
+details.qt>.a{padding:0 14px 14px 44px;color:var(--ink)}
+.qts{display:grid;gap:8px}
 /* questions + drill */
 .qs{display:grid;gap:10px;margin:0;padding:0;list-style:none}
 .qs li{display:grid;grid-template-columns:22px 1fr;gap:8px}
@@ -252,7 +260,7 @@ if(deals.length){
         ${panel('Timeline', tl(d.timeline))}
         <div class="grid2">${panel('Strategic rationale', list(d.rationale))}${panel('Use of proceeds', d.proceeds?`<p>${fmt(d.proceeds)}</p>`:'')}${panel('Market reaction', list(d.reaction))}${panel("Why it matters for the group", d.angle?`<p>${fmt(d.angle)}</p>`:'')}</div>
         ${d.pitch?`<div class="pitch"><h4 style="margin-bottom:6px">Walk me through it · 60 seconds</h4>${fmt(d.pitch)}</div>`:''}
-        ${has(d.qa)?panel('Likely questions', `<ul class="clean">${d.qa.map(x=>`<li><b>${fmt(x.q)}</b><br>${fmt(x.a)}</li>`).join('')}</ul>`):''}
+        ${has(d.qa)?panel('Likely questions', `<div class="qts">${d.qa.map(x=>`<details class="qt"><summary><span>?</span><span>${fmt(x.q)}</span></summary><div class="a">${fmt(x.a)}</div></details>`).join('')}</div>`):''}
         ${d.opinion?panel('An opinion you can defend', `<p>${fmt(d.opinion)}</p>`):''}
         ${chartsFor('deal-'+i)}
       </div></details>`;}).join('');
@@ -277,14 +285,14 @@ if(has(R)) out += sec('recruiting','Getting in','Recruiting', `
 // angles + questions
 const A = D.angles || {};
 if(has(A)) out += sec('angles','Your pitch','Why you, why here', `<div class="grid2">${panel('Why this firm', list(A.why_firm))}${panel('Why this group', list(A.why_group))}${panel('Links to your experience', list(A.links))}</div>`, 'Your pitch');
-if(has(D.questions)) out += sec('questions','To ask','Questions', `<ul class="qs">${D.questions.map(q=>`<li><span class="s">${q.star?'★':'·'}</span><span>${fmt(q.q)}${q.why?` <span class="muted">· ${fmt(q.why)}</span>`:''}</span></li>`).join('')}</ul>`);
+if(has(D.questions)) out += sec('questions','To ask','Questions', `<div class="qts">${D.questions.map(q=>`<details class="qt"><summary><span class="s" style="color:var(--accent)">${q.star?'★':'·'}</span><span>${fmt(q.q)}</span></summary><div class="a">${q.why?fmt(q.why):'<span class="muted">No note.</span>'}</div></details>`).join('')}</div>`);
 
 // drill
 if(has(D.drill)) out += sec('drill','Practice',`Interview drill · ${D.drill.length} cards`, `
   <div class="drill" id="drill"><div class="ctrl"><span class="pill acc" id="dTopic"></span><span class="prog" id="dProg"></span></div>
   <div class="q" id="dQ"></div><div class="a" id="dA" hidden></div>
   <div class="ctrl"><button class="btn pri" type="button" id="dShow">Show answer</button><button class="btn ok" type="button" id="dGot">Got it</button><button class="btn no" type="button" id="dMiss">Missed it</button><button class="btn" type="button" id="dShuf">Shuffle</button><button class="btn" type="button" id="dMissed">Only missed</button></div></div>
-  <details class="card"><summary><h3>All cards as a list</h3></summary><div class="body"><ol class="clean">${D.drill.map(c=>`<li><b>${fmt(c.q)}</b><br>${fmt(c.a)}</li>`).join('')}</ol></div></details>`, 'Drill');
+  <details class="card"><summary><h3>All cards as a list</h3></summary><div class="body"><div class="qts">${D.drill.map((c,i)=>`<details class="qt"><summary><span class="mono muted">${i+1}</span><span>${fmt(c.q)}</span></summary><div class="a">${fmt(c.a)}</div></details>`).join('')}</div></div></details>`, 'Drill');
 
 if(has(D.gaps)) out += sec('gaps','Not found','Still missing · where to look', `<div class="tbl"><table><thead><tr><th>What</th><th>Where to look</th></tr></thead><tbody>${D.gaps.map(g=>`<tr><td>${fmt(g.what)}</td><td>${fmt(g.where)}</td></tr>`).join('')}</tbody></table></div>`, 'Gaps');
 if(has(D.sources)) out += sec('sources','Every fact traces here',`Sources · ${D.sources.length}`, `<ol class="src">${D.sources.map(s=>`<li id="src-${esc(s.n)}" value="${esc(s.n)}"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a> <span class="muted">· ${esc(s.publisher||'')}${s.date?' · '+esc(s.date):''}</span></li>`).join('')}</ol>`, 'Sources');

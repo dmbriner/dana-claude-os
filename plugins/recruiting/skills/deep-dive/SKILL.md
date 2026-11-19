@@ -100,6 +100,7 @@ Fix every ERROR. For each WARN under the quality bar, go back and fill the gap (
    - Where: under the person's People page (person modes), or under the firm's Firms page (firm and deal modes).
    - Icon: a Lucide-style line icon.
    - Content: the dossier link at the top, then TL;DR, KPIs, the deal table, the questions, the gaps, and toggles holding the full breakdowns and sources.
+   - **Every question is a toggle** (Dana's ask, 2026-11-19): questions to ask, deal Q&A, and drill cards each go in their own toggle with the question as the title and the answer or "why ask" note inside, in Notion and in the web dossier (the template already does this).
    - Update empty or outdated properties on People and Firms rows (Role & About, Level, Location, Key Takeaways). Never overwrite Dana's notes.
 3. **Word copy.** Save it to `<career_root>/Recruitment/Firms/<Firm>/Research/Deep Dive – <Title> <YYYY-MM-DD>.docx` (write HTML, then run `textutil -convert docx`).
 4. **Audio briefing (optional).** If the `notebooklm` skill works in this session, load the dossier and its top sources into a notebook and generate an Audio Overview for Dana to listen to on the way to the interview. Skip it silently if NotebookLM isn't set up.
