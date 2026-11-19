@@ -63,6 +63,14 @@ Combine the agents' JSON into one dossier file:
 - Mark `person_named` on deals that name the person.
 - Write `kpis` (the 4 to 6 numbers that define this firm or group) and `tldr` (5 bullets) yourself.
 
+**Helper scripts** (in `tools/`, run with `python3 -I`):
+- `merge.py out.json part1.json part2.json ...` renumbers and dedupes sources across agents and remaps every `[n]` and `src`.
+- `apply.py dossier.json coach.json fixes.json out.json` applies the fact-checker's fixes (paths like `deals[2].role` or `deals.2.role`) and the coach's drill, questions, angles, deal pitches (best name match), video answers and playbook (`call_plan`, `tmay`, `practice_plan`, `avoid`).
+- `word.py dossier.json out.html <dossier url>` writes printable HTML for `textutil -convert docx`.
+- `node smoke.js page.html` runs the built page's script against a stub DOM and lists the sections it rendered. Run it before every publish.
+
+For an online assessment or one-way video, add an `assessment` section and have the coach write answers per video question; for a call, have the coach return `call_plan`, `tmay` and `avoid` for the Playbook.
+
 ## 4. Wave 2: coach and fact-check in parallel
 
 Send both in one message:
