@@ -26,6 +26,7 @@ A 30-second summary Dana could say out loud: what it does, its size (AUM and fun
 Explain the business model in plain words: who the LPs are, the fund and its size, deal size, control vs. minority, the value-creation playbook (operations team, add-ons, pricing), how it exits. For PE: what makes this firm's edge different from its peers. End with "what this means for an intern": the work you'd actually do.
 
 ### 3. The deals (25 min per 2 to 3 deals)
+Source deals with the `research-sources` skill (Krugman Insights Deal Tracker, SEC EDGAR, press releases, trade press).
 A table of every deal you can source, then one card per major deal:
 - **What:** buyer, seller, business, date, price, and multiple if disclosed (say "not disclosed" rather than guessing)
 - **Why the seller sold** and **why the firm bought**

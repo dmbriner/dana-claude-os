@@ -31,6 +31,8 @@ Files may be iCloud placeholders. If a file can't be read, skip it and say so.
 
 ## 2. Research (web)
 
+First read the `research-sources` skill (`plugins/recruiting/skills/research-sources/SKILL.md`): it lists where to look up the person and their group's deals (Krugman Insights, FINRA BrokerCheck, SEC EDGAR, and more) and how to reach each one.
+
 Use WebSearch and WebFetch (or a web-fetch agent). Open the pages you cite; a search snippet alone is not a source. Prefer the firm's own site, press releases, SEC filings, and reputable financial press (Bloomberg, Reuters, WSJ, FT, PE Hub, PitchBook news, Secondaries Investor, Mergermarket summaries).
 
 Cover, in this order of importance:
