@@ -95,3 +95,8 @@
 - **Tombstones:** the deal list shows every deal as a tombstone. Deals with `"deep": true` also get a full breakdown card, and clicking a tombstone opens its card.
 - **Team map:** in `team`, the entry with `"is_subject": true` (the person themselves) is highlighted.
 - **Drill:** the drill is an interactive flashcard deck. It remembers which cards were marked "got it," per browser.
+
+## Multi-series charts
+- **Stacked bars:** give each `series` row `parts: [{"label": "LP-led", "value": 125, "display": "$125bn"}, ...]`. Bars stack and a legend appears.
+- **Grouped bars** (parts that don't add up, e.g. capital vs. volume): same, plus `"grouped": true` on the chart.
+- **Multiple lines:** `points` is the first line (name it with `label`), and `lines: [{"label": "Buyout", "points": [...]}]` adds more on the same scale.

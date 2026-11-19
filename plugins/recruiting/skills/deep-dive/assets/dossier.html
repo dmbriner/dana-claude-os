@@ -6,17 +6,17 @@
 /* Layout: pitchbook dossier. Sticky section rail, long-form sections, deals as tombstones that open into full breakdowns. */
 :root{
   --paper:#F2F4F8; --surface:#FFFFFF; --ink:#13203A; --muted:#58627A; --rule:#D8DDE7;
-  --accent:#A86A12; --accent-soft:#F5EAD8; --good:#2F7D4F; --warn:#B4442E; --chip:#E7EBF2;
+  --accent:#A86A12; --accent-soft:#F5EAD8; --s2:#3E5C8A; --s3:#6B8F71; --s4:#9A5B7A; --s5:#7A7A7A; --good:#2F7D4F; --warn:#B4442E; --chip:#E7EBF2;
   --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#0C1322; --surface:#131C30; --ink:#E5E9F1; --muted:#98A2B6; --rule:#26314A;
-  --accent:#F0A83A; --accent-soft:#2B2416; --good:#5CC48A; --warn:#F07A63; --chip:#1D2840; color-scheme:dark}}
+  --accent:#F0A83A; --accent-soft:#2B2416; --s2:#7EA6E0; --s3:#8FC39A; --s4:#D08CB0; --s5:#A8A8A8; --good:#5CC48A; --warn:#F07A63; --chip:#1D2840; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0C1322; --surface:#131C30; --ink:#E5E9F1; --muted:#98A2B6; --rule:#26314A;
-  --accent:#F0A83A; --accent-soft:#2B2416; --good:#5CC48A; --warn:#F07A63; --chip:#1D2840; color-scheme:dark}
+  --accent:#F0A83A; --accent-soft:#2B2416; --s2:#7EA6E0; --s3:#8FC39A; --s4:#D08CB0; --s5:#A8A8A8; --good:#5CC48A; --warn:#F07A63; --chip:#1D2840; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font:15px/1.6 var(--body);margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
@@ -114,6 +114,7 @@ details.card .body{padding:0 18px 18px;display:grid;gap:18px;border-top:1px soli
 .org .node span{font-size:12px;color:var(--muted)}
 .org .node.me{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .org .bar{width:1px;height:14px;background:var(--rule)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin:4px 0 6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 /* toggles: every question opens to its answer */
 details.qt{border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
 details.qt>summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:start;font-weight:600}
@@ -164,25 +165,38 @@ const nav = [];
 const M = D.meta || {};
 
 // charts drawn to one scale
+const PAL=['var(--accent)','var(--s2)','var(--s3)','var(--s4)','var(--s5)'];
+const legend=names=>`<div class="legend">${names.map((n,i)=>`<span><i style="background:${PAL[i%PAL.length]}"></i>${esc(n)}</span>`).join('')}</div>`;
+const fig=(c,svg,lg='')=>`<figure class="panel chart" style="margin:0"><h4>${esc(c.title)}</h4>${lg}<svg viewBox="0 0 640 ${svg.h}" role="img" aria-label="${esc(c.title)}">${svg.body}</svg>${c.note?`<p class="muted" style="font-size:12px">${fmt(c.note)}</p>`:''}<p class="muted" style="font-size:12px">Source${cite(c.src)}</p></figure>`;
+// bars: plain, stacked (rows with parts), or grouped (parts + "grouped": true)
 function barChart(c){
   const rows=c.series||[]; if(!rows.length) return '';
-  const max=Math.max(...rows.map(r=>+r.value||0))||1, W=640, lw=170, rh=28, H=rows.length*rh+10;
-  const bars=rows.map((r,i)=>{const w=Math.max(1,(+r.value/max)*(W-lw-90)); const y=i*rh+5;
-    return `<text class="lbl" x="${lw-8}" y="${y+17}" text-anchor="end">${esc(r.label)}</text><rect x="${lw}" y="${y+4}" width="${w}" height="${rh-10}" rx="2" fill="var(--accent)"></rect><text x="${lw+w+6}" y="${y+17}">${esc(r.display ?? r.value)}${c.unit&&!r.display?' '+esc(c.unit):''}</text>`;}).join('');
-  return `<figure class="panel chart" style="margin:0"><h4>${esc(c.title)}</h4><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.title)}">${bars}</svg>${c.note?`<p class="muted" style="font-size:12px">${fmt(c.note)}</p>`:''}<p class="muted" style="font-size:12px">Source${cite(c.src)}</p></figure>`;
+  const multi=rows.some(r=>Array.isArray(r.parts)&&r.parts.length), grouped=multi&&(c.grouped||c.stacked===false);
+  const names=multi?[...new Set(rows.flatMap(r=>(r.parts||[]).map(x=>x.label)))]:[];
+  const tot=r=>multi?(grouped?Math.max(...(r.parts||[]).map(x=>+x.value||0)):(r.parts||[]).reduce((a,x)=>a+(+x.value||0),0)):(+r.value||0);
+  const W=640, lw=150, sub=grouped?Math.max(1,names.length):1, rh=grouped?16*sub+12:28, H=rows.length*rh+10;
+  const max=Math.max(...rows.map(tot))||1, sc=v=>Math.max(1,(v/max)*(W-lw-90));
+  const body=rows.map((r,i)=>{const y=i*rh+5; let g=`<text class="lbl" x="${lw-8}" y="${y+(grouped?rh/2+3:17)}" text-anchor="end">${esc(r.label)}</text>`;
+    if(!multi){const w=sc(+r.value); return g+`<rect x="${lw}" y="${y+4}" width="${w}" height="${rh-10}" rx="2" fill="var(--accent)"></rect><text x="${lw+w+6}" y="${y+17}">${esc(r.display ?? r.value)}${c.unit&&!r.display?' '+esc(c.unit):''}</text>`;}
+    if(grouped){(r.parts||[]).forEach(x=>{const k=names.indexOf(x.label), w=sc(+x.value), yy=y+4+k*16; g+=`<rect x="${lw}" y="${yy}" width="${w}" height="12" rx="2" fill="${PAL[k%PAL.length]}"><title>${esc(x.label)}: ${esc(x.display??x.value)}</title></rect><text x="${lw+w+6}" y="${yy+10}" style="font-size:11px">${esc(x.display??x.value)}</text>`;}); return g;}
+    let x0=lw; (r.parts||[]).forEach(x=>{const k=names.indexOf(x.label), w=sc(+x.value); g+=`<rect x="${x0}" y="${y+4}" width="${w}" height="${rh-10}" fill="${PAL[k%PAL.length]}"><title>${esc(x.label)}: ${esc(x.display??x.value)}</title></rect>`; x0+=w;});
+    return g+`<text x="${x0+6}" y="${y+17}">${esc(r.display ?? tot(r))}${c.unit&&!r.display?' '+esc(c.unit):''}</text>`;}).join('');
+  return fig(c,{h:H,body},multi?legend(names):'');
 }
+// lines: one series in points, more in lines:[{label,points}]
 function lineChart(c){
-  const p=c.points||[]; if(p.length<2) return '';
-  const W=640,H=240,l=48,r=16,t=14,b=28, ys=p.map(d=>+d.y), lo=Math.min(...ys), hi=Math.max(...ys), pad=(hi-lo)*.08||1, y0=lo-pad, y1=hi+pad;
-  const X=i=>l+i*(W-l-r)/(p.length-1), Y=v=>t+(1-(v-y0)/(y1-y0))*(H-t-b);
-  const ticks=[0,.25,.5,.75,1].map(f=>y0+f*(y1-y0));
-  const grid=ticks.map(v=>`<line x1="${l}" x2="${W-r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"></line><text x="${l-6}" y="${Y(v)+4}" text-anchor="end">${v>=100?Math.round(v):v.toFixed(1)}</text>`).join('');
-  const path=p.map((d,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(+d.y).toFixed(1)}`).join('');
-  const area=`${path}L${X(p.length-1)},${H-b}L${X(0)},${H-b}Z`;
-  const xl=[0,Math.floor((p.length-1)/2),p.length-1].map(i=>`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?'start':i===p.length-1?'end':'middle'}">${esc(p[i].x)}</text>`).join('');
-  const marks=(c.marks||[]).map(m=>{const i=p.findIndex(d=>d.x===m.x); if(i<0) return ''; return `<line x1="${X(i)}" x2="${X(i)}" y1="${t}" y2="${H-b}" stroke="var(--muted)" stroke-dasharray="3 3"></line><text class="lbl" x="${X(i)+4}" y="${t+10}">${esc(m.label)}</text>`;}).join('');
-  const last=p[p.length-1];
-  return `<figure class="panel chart" style="margin:0"><h4>${esc(c.title)}</h4><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.title)}">${grid}<path d="${area}" fill="var(--accent-soft)"></path><path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"></path>${marks}<circle cx="${X(p.length-1)}" cy="${Y(+last.y)}" r="4" fill="var(--accent)"></circle>${xl}</svg>${c.note?`<p class="muted" style="font-size:12px">${fmt(c.note)}</p>`:''}<p class="muted" style="font-size:12px">Source${cite(c.src)}</p></figure>`;
+  const sets=[]; if((c.points||[]).length) sets.push({label:c.label||c.points_label||'',points:c.points}); (c.lines||[]).forEach(L=>{if((L.points||[]).length) sets.push(L);});
+  const p=sets[0]?.points||[]; if(p.length<2) return '';
+  const xs=p.map(d=>d.x), W=640,H=240,l=48,r=16,t=14,b=28, ys=sets.flatMap(S=>S.points.map(d=>+d.y)), lo=Math.min(...ys), hi=Math.max(...ys), pad=(hi-lo)*.08||1, y0=lo-pad, y1=hi+pad;
+  const X=i=>l+i*(W-l-r)/(xs.length-1), Y=v=>t+(1-(v-y0)/(y1-y0))*(H-t-b);
+  const grid=[0,.25,.5,.75,1].map(f=>y0+f*(y1-y0)).map(v=>`<line x1="${l}" x2="${W-r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"></line><text x="${l-6}" y="${Y(v)+4}" text-anchor="end">${v>=100?Math.round(v):v.toFixed(1)}</text>`).join('');
+  const lines=sets.map((S,k)=>{const pts=S.points.map(d=>[xs.indexOf(d.x),+d.y]).filter(q=>q[0]>=0); if(pts.length<2) return '';
+    const path=pts.map((q,i)=>`${i?'L':'M'}${X(q[0]).toFixed(1)},${Y(q[1]).toFixed(1)}`).join(''), col=PAL[k%PAL.length], lq=pts[pts.length-1];
+    const area=sets.length===1?`<path d="${path}L${X(lq[0])},${H-b}L${X(pts[0][0])},${H-b}Z" fill="var(--accent-soft)"></path>`:'';
+    return `${area}<path d="${path}" fill="none" stroke="${col}" stroke-width="2"></path><circle cx="${X(lq[0])}" cy="${Y(lq[1])}" r="3.5" fill="${col}"></circle>`;}).join('');
+  const xl=[0,Math.floor((xs.length-1)/2),xs.length-1].map(i=>`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?'start':i===xs.length-1?'end':'middle'}">${esc(xs[i])}</text>`).join('');
+  const marks=(c.marks||[]).map(m=>{const i=xs.indexOf(m.x); if(i<0) return ''; return `<line x1="${X(i)}" x2="${X(i)}" y1="${t}" y2="${H-b}" stroke="var(--muted)" stroke-dasharray="3 3"></line><text class="lbl" x="${X(i)+4}" y="${t+10}">${esc(m.label)}</text>`;}).join('');
+  return fig(c,{h:H,body:grid+lines+marks+xl},sets.length>1?legend(sets.map(S=>S.label||'')):'');
 }
 const chart = c => c.type==='line' ? lineChart(c) : barChart(c);
 const chartsFor = where => (D.charts||[]).filter(c=>c.section===where).map(chart).join('');
