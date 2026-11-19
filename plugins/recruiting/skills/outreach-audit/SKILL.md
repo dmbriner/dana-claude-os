@@ -34,6 +34,10 @@ Then rank the unsent ones by:
 3. Time-sensitivity: thank-you notes after an event go first, and stale drafts offering times that already passed.
 4. **Stagger by firm:** no more than 2 people from the same firm or group per day. The rest go on the "Tomorrow" list.
 
+## 3b. Verify each person and find their email (Apollo)
+Dana is logged into Apollo.io in Chrome (there's no Apollo MCP). Open `app.apollo.io/#/people?qKeywords=<full name>`, find the row whose company matches, and click **Access email** (it didn't use credits on 11/19, but check the credit count). Read the title, company, location, email, and LinkedIn URL from the row. A small page-script loop over `[role="row"]` cells handles a batch of names fast. Cross-check against Notion. Drop anyone Apollo shows as VP or above (titles can be stale in Notion). Label each email "Apollo, verified", "Notion only", or "none found". Never guess an address. Apollo can't filter by school, so new names it finds (searched by title + keyword like "consumer retail") are cold.
+When Dana asks for a big batch (e.g. "30 people"), split it into waves of about 10 a day, each wave offering times after its send day.
+
 ## 4. Rebuild their drafts
 - Fresh times from the `scheduling` skill: 3 windows on different days, the soonest available after today, in ET (recipient's zone if different). Check booked meetings that only live in email, like interviews confirmed in a thread ("Let's do 10:30am").
 - Rewrite in the `outreach-email` template (old drafts often use "would love to" or questions, so fix them). Newest general resume PDF with no firm in the file name.
@@ -44,6 +48,7 @@ Then rank the unsent ones by:
 ## 5. Email Dana
 Send from Gmail to Dana's iCloud address (the same address that gets the Daily Recruiting Brief). Subject: `Outreach To-Send – <Weekday>, <Month D>`. Sections:
 1. What you actually sent (by day)
+   - For each person: a short overview (role, group, office, background) plus how the role was checked and where the email came from
 2. Send today: a table of the top 5 with one line on why, and "drafts ready in Kenan-Flagler › Drafts"
 3. The drafted emails: one in full, then the interest line for each of the others
 4. Tomorrow (staggered)
