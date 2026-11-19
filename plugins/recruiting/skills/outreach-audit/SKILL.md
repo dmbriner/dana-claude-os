@@ -26,7 +26,9 @@ Look back 3 days (7 on Mondays).
 Also catch drafts with **no recipient** (thank-you notes typed but never addressed) and look up the address in Notion People.
 
 ## 3. Pick today's top 5
-Rank the unsent ones by:
+**Analysts and associates only.** Read each person's title in Notion People (`Role & About`; `Level` is usually blank). Anyone VP, Director, Executive Director, MD, Partner, or Vice Chair is too senior for cold outreach. Leave them off, even if a draft exists, and list them under "Senior: held, your call." If a title is unknown, look it up before ranking.
+
+Then rank the unsent ones by:
 1. Fit with Dana's interests (read the `career-interests` memory: consumer/luxury, PE, secondaries, multi-asset credit).
 2. Notion Priority = High.
 3. Time-sensitivity: thank-you notes after an event go first, and stale drafts offering times that already passed.
