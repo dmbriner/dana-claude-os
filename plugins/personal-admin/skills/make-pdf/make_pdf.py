@@ -509,6 +509,74 @@ def parse_pagemap(s, cast=str):
     return m
 
 
+def text_lines_px(res, w, h):
+    """OCR lines -> [(cx, cy, x0, y0, x1, y1, weight)] in full-image pixels, top-left origin."""
+    out = []
+    for l in (res or {}).get("lines", []):
+        if len(l["text"].strip()) < 3:
+            continue
+        bx, by, bw, bh = l["box"]
+        x0, x1 = bx * w, (bx + bw) * w
+        y0, y1 = (1 - by - bh) * h, (1 - by) * h
+        out.append(((x0 + x1) / 2, (y0 + y1) / 2, x0, y0, x1, y1, len(l["text"]) * l.get("conf", 1)))
+    return out
+
+
+def core_lines(lines, w, h):
+    """Lines near the middle of the photo, in the dominant reading direction."""
+    if not lines:
+        return []
+    side = [(l[5] - l[3]) > 1.2 * (l[4] - l[2]) for l in lines]
+    sideways = sum(side) > len(lines) / 2
+    return [l for l, sd in zip(lines, side) if sd == sideways
+            and 0.12 * w <= l[0] <= 0.88 * w and 0.06 * h <= l[1] <= 0.94 * h]
+
+
+def grow_to_text(quad, core, w, h, pad=0.012):
+    """If core text sits outside the outline, return the smallest quad covering both."""
+    cv2, np = need("cv2"), need("numpy")
+    poly = quad.reshape(-1, 1, 2).astype("float32")
+    out = [l for l in core if cv2.pointPolygonTest(poly, (float(l[0]), float(l[1])), False) < 0]
+    tot = sum(l[6] for l in core)
+    if not out or sum(l[6] for l in out) < 0.03 * tot:
+        return None
+    px, py = pad * w, pad * h
+    pts = [list(p) for p in quad]
+    for l in out:
+        pts += [[l[2] - px, l[3] - py], [l[4] + px, l[3] - py], [l[4] + px, l[5] + py], [l[2] - px, l[5] + py]]
+    pts = np.clip(np.array(pts, "float32"), [0, 0], [w - 1, h - 1]).astype("float32")
+    q = best_quad(cv2.convexHull(pts))
+    return None if q is None else order_pts(q)
+
+
+def text_coverage(quad, lines):
+    cv2 = need("cv2")
+    if not lines:
+        return 1.0
+    poly = quad.reshape(-1, 1, 2).astype("float32")
+    tot = sum(l[6] for l in lines)
+    inside = sum(l[6] for l in lines if cv2.pointPolygonTest(poly, (float(l[0]), float(l[1])), False) >= 0)
+    return inside / max(tot, 1e-6)
+
+
+def text_block_quad(lines, w, h, pad=0.035):
+    """Box around the main block of text (drops stray lines from neighbouring pages)."""
+    np = need("numpy")
+    c = np.array([[l[0], l[1]] for l in lines])
+    wt = np.array([l[6] for l in lines])
+    med = np.array([np.median(c[:, 0]), np.median(c[:, 1])])
+    d = np.hypot(*(c - med).T)
+    keep = d <= max(2.2 * np.median(d), 1)
+    if keep.sum() < 3:
+        return None
+    L = [l for l, k in zip(lines, keep) if k]
+    x0, y0 = min(l[2] for l in L), min(l[3] for l in L)
+    x1, y1 = max(l[4] for l in L), max(l[5] for l in L)
+    px, py = pad * w, pad * h
+    x0, y0, x1, y1 = max(0, x0 - px), max(0, y0 - py), min(w - 1, x1 + px), min(h - 1, y1 + py)
+    return np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], "float32")
+
+
 def process_images(paths, args, work, first_page_no):
     """Scan a run of consecutive images into one PDF. Returns (pdf, report rows)."""
     cv2, np = need("cv2", "opencv-python-headless"), need("numpy")
@@ -525,21 +593,35 @@ def process_images(paths, args, work, first_page_no):
         cv2.imwrite(str(small), cv2.resize(bgr, (int(w * k), int(h * k)), interpolation=cv2.INTER_AREA))
         imgs.append((p, bgr, small))
     vq = vision_quads([x[2] for x in imgs]) if args.mode != "photo" else [{}] * len(imgs)
+    ocr_small = ocr_images([x[2] for x in imgs]) if args.mode != "photo" else [{}] * len(imgs)
     for j, ((p, bgr, small), vres) in enumerate(zip(imgs, vq)):
         n = first_page_no + j
         row = {"page": n, "file": Path(p).name}
         mode = args.mode
         h, w = bgr.shape[:2]
         if mode != "photo" and not nocrop.get(n):
+            # Start from Apple's page outline (or the fallback detector), then make sure it holds the
+            # text near the middle of the photo: a detector that grabbed only a chart or half the
+            # page is grown to cover that text. Text out at the edges is usually a neighbouring page.
+            core = core_lines(text_lines_px(ocr_small[j], w, h), w, h)
             quad = None
-            if vres.get("quad") and vres.get("conf", 0) >= 0.5:
+            if vres.get("quad") and vres.get("conf", 0) >= 0.3:
                 q = (np.array(vres["quad"], "float32") * np.array([w, h], "float32")).astype("float32")
-                if cv2.contourArea(q) > 0.15 * w * h:
+                if cv2.contourArea(q) >= 0.15 * w * h:
                     quad, row["crop"] = order_pts(q), f"page found (Vision {vres['conf']:.2f})"
             if quad is None:
                 quad = find_page_cv(bgr)
                 if quad is not None:
                     row["crop"] = "page found (fallback detector, check it)"
+            if quad is not None and core:
+                grown = grow_to_text(quad, core, w, h)
+                if grown is not None:
+                    quad = grown
+                    row["crop"] += ", grown to cover text"
+            if quad is None and core:
+                quad = text_block_quad(core, w, h)
+                if quad is not None:
+                    row["crop"] = "cropped to the text block (page edge unclear, check it)"
             if quad is not None:
                 if args.pad:
                     c = quad.mean(0)
@@ -591,7 +673,9 @@ def process_images(paths, args, work, first_page_no):
                     tmp.append(t)
                 scores = [ocr_score(x) for x in ocr_images(tmp)]
                 best = cands[scores.index(max(scores))] if max(scores) > 0 else 0
-                if best != 0 and max(scores) > 1.15 * scores[cands.index(0)]:
+                s0 = scores[cands.index(0)]
+                need_ratio = 1.15 if best in (90, 270) else 1.8  # Vision half-reads upside-down text; be strict
+                if best != 0 and max(scores) > need_ratio * s0:
                     cv2.imwrite(str(jpg), cv2.rotate(img, turns[best]), [cv2.IMWRITE_JPEG_QUALITY, args.quality])
                     row["rotate"] = f"{best}° (auto)"
                     r.clear()

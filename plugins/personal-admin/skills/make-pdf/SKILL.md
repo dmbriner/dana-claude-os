@@ -39,14 +39,19 @@ Defaults: scan mode (find the page, crop, straighten, clean, auto-rotate, OCR), 
 | Make an existing scanned PDF searchable, unchanged otherwise | `--ocr-only` (pages that already have text are left alone) |
 | Smaller file | `--max-px 1800 --quality 75` |
 
-The script prints JSON with the page count, the file size, the per-page crop method ("Vision" = Apple's detector; "fallback" = check that page), rotation, characters of OCR text, and a `preview` path.
+The script prints JSON with the page count, the file size, and the per-page crop method:
+- "Vision" means Apple's detector.
+- "grown to cover text" means the outline was widened because text near the middle of the photo fell outside it.
+- "fallback" or "text block" means check that page.
+
+It also reports rotation, characters of OCR text, and a `preview` path.
 
 ## 3. Check before handing it over (always)
 - **Open the preview** (`~/.cache/make-pdf/previews/<name>.preview.jpg`, a contact sheet of every page) and look at it. Check:
   - each page is cropped to the paper
   - nothing is sideways
   - the order matches the printed page numbers
-  - no page is missing or duplicated
+  - no page is missing or duplicated. People often photograph a page twice. Compare the printed page numbers, or the OCR text of neighbouring pages. Drop the extra from the build, and rename its photo `page N (duplicate photo).<ext>` instead of deleting it.
 - For any page that looks off, render it larger and fix it, then rebuild with `--rotate`, `--nocrop` or `--pad`. Render with `~/.cache/make-pdf/pdftool render <pdf> <dir> 110`.
 - **Spot-check that the text is searchable:** `python3 -c "from pypdf import PdfReader;print(PdfReader('<pdf>').pages[0].extract_text()[:300])"`.
 - Photos of curled pages held in a hand can't be perfect: a fingertip or a curved edge may remain. Say so instead of claiming a perfect scan.
