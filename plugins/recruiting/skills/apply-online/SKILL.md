@@ -9,6 +9,7 @@ Paths are relative to the repo root (this file is `plugins/recruiting/skills/app
 
 ## 0. Load before touching the browser
 - `private/application-answers.md`: every standard answer (contact, eligibility, education, work history), school-picker quirks, and the list of fields that are always Dana's call. **If a form asks something not in this file, ask Dana (AskUserQuestion, batched), then append the answer under "Learned answers".**
+**Re-read `application-answers.md` immediately before each form, and again before asking Dana anything.** Other sessions append answers during the day (for example conflict-of-interest and family disclosures), so a copy read earlier in the session can be out of date.
 - `private/profile.json`: `career_root` and Notion IDs.
 - The packet: `<career_root>/Recruitment/Firms/<Firm>/Applications/<Role>/` should hold the tailored resume (.pdf and .docx) and cover letter. If it's missing, run the `cover-letter` skill first.
 - The Notion Opportunities row for the role (check whether it's already Submitted, so nothing gets applied to twice).
