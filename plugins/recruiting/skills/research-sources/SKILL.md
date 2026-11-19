@@ -53,6 +53,8 @@ This is the list of places to search, in order, when Dana needs facts about a pe
 | **News MCPs** | Recent firm headlines | `career-tools` MCP (`firm_news`, `search_news`) | Then open the article itself. |
 | **Paid databases via UNC** | Full deal lists, advisors, banker credits | Capital IQ, PitchBook, Bloomberg terminal (Kenan-Flagler) | Claude can't reach these. Tell Dana exactly what to look up there if it would fill a gap. |
 
+For a full, comprehensive dossier (person + firm + every deal broken down), use the `deep-dive` skill instead.
+
 ## When used on its own ("look up <name>")
 
 1. Find the person in Notion People. If they have no page, ask before creating one.
