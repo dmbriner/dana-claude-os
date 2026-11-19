@@ -10,6 +10,7 @@ General life-admin agent for Dana — the catch-all for day-to-day organizing wo
 - **Skills**
   - `plan-my-day` — turns a brain dump into Notion tasks and 25-minute focus blocks on the calendar, each with a phone ping, a first tiny step, and the task link. Every run starts by catching up on blocks that already passed (`missed_blocks.py`), so a skipped evening or morning rolls into the new plan instead of disappearing. Has a restart mode for "I'm behind", and flags tasks that keep slipping. Also does the end-of-day wrap-up.
   - `email-assistant` — triages the inbox, drafts replies in Dana's voice as Gmail drafts (never sends), updates Notion application statuses, and learns from edits. Adapted from [claude-email-assistant](https://github.com/marian-kamenistak/claude-email-assistant).
+  - `make-pdf` — turns anything into a clean, searchable PDF: photos of paper pages are cropped, straightened, de-shadowed, turned upright and OCR'd on-device (Apple Vision); Office/iWork/Markdown/screenshots are converted; PDFs are merged, and scanned ones get a text layer. `photos_export.sh` pulls pages straight from the Photos app.
   - `scheduling` — real availability across every calendar and inbox; offered times stay open until accepted; keeps the Reference calendar of holds in sync. `free_windows.py` does the time-zone math.
 
 ## Setup

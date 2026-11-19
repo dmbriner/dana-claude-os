@@ -21,6 +21,7 @@ Check this table before doing a task by hand.
 | Missed blocks, "I'm behind", redo my day (catch-up + replan legwork) | `day-planner` agent (draft → apply), called by `plan-my-day` | personal-admin |
 | Park a tangent to come back to (/side-note) | `side-note` skill + `side-note` agent (Haiku, background) | personal-admin |
 | Show all parked side notes (/open-threads) | `open-threads` skill | personal-admin |
+| Make a PDF: scan photos of pages, convert Office/iWork/Markdown, merge, make searchable (/make-pdf) | `make-pdf` skill | personal-admin |
 | Organize files, general life admin | `personal-admin` agent | personal-admin |
 | ITC note, model, screen, earnings update | `itc-researcher` agent + ITC skills | itc-research |
 | Review a research draft | `itc-reviewer` agent | itc-research |
