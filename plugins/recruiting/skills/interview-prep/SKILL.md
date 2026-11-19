@@ -13,6 +13,7 @@ Load from the repo root (resolve this file's symlink and walk up to `.claude-plu
 - `private/story-bank.md`: behavioral stories Dana has already practiced (create it the first time)
 
 ## 0. Set up
+- If a `deep-dive` dossier exists for this firm or group (a child page under its Firms page), use it for parts 1 to 3 instead of redoing the research. If none exists and the interview is more than 2 days out, offer to run `deep-dive` in firm mode first.
 - Find the firm in Notion **Firms** and the people in **People**. If `coffee-chat-prep` already wrote a brief on someone's People page, reuse it and don't redo the research.
 - Ask only what you can't find: interview date and time, format (phone, Zoom, superday), the interviewer's name, and the role.
 - Create or open the prep page as a child of the firm's Opportunity row (or the Firms row if there isn't one), titled `Interview Prep – <Firm> – <date>`. Add the date to the Opportunity's Tasks.

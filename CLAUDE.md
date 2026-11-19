@@ -12,7 +12,7 @@ Check this table before doing a task by hand.
 | Fill out an online application | `apply-online` skill | recruiting |
 | Prep for a coffee chat or call | `coffee-chat-prep` skill | recruiting |
 | Look up a person or their deals; where to search (Krugman Insights, BrokerCheck, EDGAR…) | `research-sources` skill | recruiting |
-| Deep dive: everything on a person + firm/group + deals, one Notion dossier (/deep-dive) | `deep-dive` skill → `person-researcher`, `firm-researcher`, `deal-researcher` agents in parallel | recruiting |
+| Deep dive on a firm, person, panel, or deal: interactive dossier + Notion + Word + email (/deep-dive) | `deep-dive` skill → `person-`, `firm-`, `deal-`, `market-researcher`, then `interview-coach` + `fact-checker` agents | recruiting |
 | Interview prep: firm, deals, technicals, behaviorals, mock interview | `interview-prep` skill | recruiting |
 | Event email → Career & Finance calendar | `add-event` skill | recruiting |
 | Networking / cold outreach email draft (Kenan-Flagler Mail) | `outreach-email` skill | recruiting |

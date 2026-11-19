@@ -1,82 +1,143 @@
 ---
 name: deep-dive
-description: Run a full internet deep dive on a person, their firm and group, and their deals, using three specialist agents in parallel (person-researcher, firm-researcher, deal-researcher), and build one comprehensive Notion dossier with everything in one place. Use when Dana says "deep dive on <name/firm/deal>", "find everything on", "I want to see everything", "comprehensive prep", "deal prep for <firm>", or runs /deep-dive. Lighter versions: coffee-chat-prep (one-screen brief) and research-sources (quick lookup).
+description: The most comprehensive research Dana can get on a firm, a group, a person, or a deal. A team of specialist agents (person, firm, deal, market researchers, then an interview coach and a fact-checker) builds an interactive web dossier, a Notion page, a Word copy, and a deep-dive email. Use when Dana says "deep dive on <name/firm/deal>", "I have an interview at <firm>, help me understand it", "what does <firm> do", "find everything on", "I want to see everything", "deal prep for <firm>", "break down <deal>", or runs /deep-dive. Every request gets the full treatment. Lighter versions: coffee-chat-prep (one-screen brief), research-sources (quick lookup).
 ---
 
-# Deep dive: person + firm + deals
+# Deep dive
 
-This is the comprehensive version: everything there is to know, on one Notion page, sourced. Use it before interviews, superdays, and important calls. For a quick one-screen brief, use `coffee-chat-prep` instead.
+Every deep dive is the maximum version. It's comprehensive, sourced, and beautiful, and nothing is held back to save time. One run produces:
 
-First load `private/profile.json` (Notion IDs, `career_root`) and `private/story.md` from the repo root (resolve this file's symlink, then walk up to `.claude-plugin/marketplace.json`).
+1. an **interactive web dossier** (an Artifact): tombstones for every deal, charts, a team map, and a flashcard drill
+2. a **Notion page** that links to everything
+3. a **Word copy** in iCloud
+4. a **Deep Dive email** to Dana, separate from the Daily Recruiting Brief
 
-## 1. Scope it
+First load `private/profile.json` (Notion IDs, `career_root`, `newsletter_to`) and `private/story.md` from the repo root. To find the root, resolve this file's symlink, then walk up to `.claude-plugin/marketplace.json`.
 
-From Dana's message, work out:
-- **Person(s):** zero or more. A superday panel means one per interviewer.
-- **Firm and group.**
-- **Deals:** any named deals, or a Krugman Insights or other link.
-- **Window:** default the last 18 months.
-- **Why:** coffee chat, interview, superday, or curiosity. This changes what to emphasize.
+## 1. Pick the mode
 
-Pull what Dana already has: the Notion People page(s), the Firms page, Opportunities, the iCloud `Recruitment/Firms/<Firm>/` folder, and any earlier coffee-chat-prep or interview-prep brief. Pass all of it to the agents so they don't start cold.
+Read Dana's message and pick one mode. Ask only if the firm or person is ambiguous.
 
-Ask Dana only if the person or firm is ambiguous. Otherwise go.
+| Mode | Trigger | Who runs |
+|---|---|---|
+| **firm**: understand a firm for an interview | "I have an interview at Citi", "what does Evercore do", "deep dive on Citi M&T" | firm + deal + market researchers |
+| **person**: one person, plus their firm and group | "deep dive on <name>", coffee chat or call prep | person + firm + deal + market researchers |
+| **panel**: superday interviewers | a list of names at one firm | one person-researcher per name + firm + deal + market |
+| **deal**: one deal from every angle | a deal name or a Krugman deal link | deal (5+ related deals as context) + market + firm (the bank's role) |
 
-## 2. Dispatch the specialists in parallel
+Firm mode is the default when only a firm is named. It answers the questions an interviewer will test:
+- What does the firm do, and how does it make money?
+- What does this group do?
+- What deals has it done, and what's the market like?
+- Why do you want to be here?
 
-Send these in one message so they run at the same time. Give each one the scope, what Dana already has, and the reason for the dive.
+If no group is named, cover the firm's main banking groups briefly, then go deep on the one tied to Dana's open Opportunity at that firm, or ask which one.
 
-- `person-researcher`: one per person.
-- `firm-researcher`: the firm plus the group.
-- `deal-researcher`: the group's deal list for the window, plus full cards for named deals or the top 3 to 5. Tell it which people are involved, so it can flag any deal that names them.
+Before dispatching, gather what Dana already has and pass it to every agent:
+- Notion People, Firms, and Opportunities
+- `Recruitment/Firms/<Firm>/` in iCloud
+- earlier coffee-chat-prep or interview-prep briefs
 
-While they run, read anything Dana pasted (bios, links) yourself.
+## 2. Wave 1: research in parallel
 
-## 3. Check and merge
+Send all of these in ONE message so they run at the same time. Give each agent:
+- the mode
+- the scope (firm, group, people, deals, window: default last 18 months)
+- the purpose (interview date, call)
+- everything Dana already has
+- the path to `assets/schema.md`, so it returns JSON in the right shape alongside its Markdown
 
-- **Cross-check:** where the agents disagree (titles, dates, deal sizes), check the primary source and keep the right one.
-- **Connect the threads:** mark which deals the person is named on, which deals happened in their group while they were there, and how the firm's strategy shows up in the deals.
-- **Gaps:** collect them into one "Still missing / where to look" list (e.g. LinkedIn, Capital IQ or PitchBook through UNC, or asking the person).
-- **Wrong numbers:** if a number can't be sourced, cut it.
+The agents:
+- `person-researcher`: one per person (person and panel modes).
+- `firm-researcher`: the firm and the group.
+- `deal-researcher`: the full deal list and 5+ full breakdowns. Tell it the people's names, so it flags any deal that names them.
+- `market-researcher`: trends plus chart data (stock price, volumes, multiples).
 
-## 4. Build the Notion dossier
+While they run, read anything Dana pasted yourself, and start the JSON file at `<scratchpad>/deep-dive/<slug>.json`.
 
-Create one page titled `Deep Dive – <Person or Firm Group> – <Month D, YYYY>`:
-- With a person: a child page under their People page.
-- Firm only: under the firm's Firms page.
+## 3. Merge
 
-Use toggles for long sections so it stays navigable, and a Lucide-style line icon (never a colored Notion icon).
+Combine the agents' JSON into one dossier file:
+- Renumber sources into one list and remove duplicate URLs.
+- Settle any conflicts between agents using the primary source.
+- Mark `person_named` on deals that name the person.
+- Write `kpis` (the 4 to 6 numbers that define this firm or group) and `tldr` (5 bullets) yourself.
 
-1. **TL;DR:** 5 bullets, the things to know if Dana reads nothing else.
-2. **The person:** career timeline table, education and activities, licenses, deals named to them, team map, public appearances, hooks, overlap with Dana.
-3. **The firm:** snapshot table, segment financials, strategy and news timeline, competitors.
-4. **The group:** coverage, leaders, structure, rankings, what juniors do.
-5. **Deal list:** a table with Date · Deal · Type · Size · Firm's role · Person named? · Status · Source.
-6. **Deal breakdowns:** one toggle per major deal with the full card (terms, valuation, advisors by role, timeline, rationale, use of proceeds, market reaction, interview angles).
-7. **Market backdrop:** 3 to 5 trends, each with why it matters.
-8. **Recruiting:** program, timeline, open postings, interview format, comp.
-9. **Your angles:** why this firm, why this group, and 2 to 3 honest links to Dana's experience from `story.md`.
-10. **Questions to ask:** 8 to 12, with the best 3 starred.
-11. **Interview drill:** the likely questions on this firm and its deals, with short answers, so Dana can quiz herself.
-12. **Still missing / where to look.**
-13. **Sources:** numbered, with dates.
+## 4. Wave 2: coach and fact-check in parallel
 
-Also:
-- Update empty or outdated properties on the People and Firms rows (Role & About, Level, Location, Key Takeaways). Never overwrite Dana's notes.
-- Save a .docx copy to `<career_root>/Recruitment/Firms/<Firm>/Research/Deep Dive – <name> <YYYY-MM-DD>.docx`: write HTML in the scratchpad, then run `textutil -convert docx`.
+Send both in one message:
+- `interview-coach`: give it the merged JSON path. It returns `drill`, `questions`, `angles`, and the polished deal `pitch` and `qa` text.
+- `fact-checker`: give it the merged JSON path. It returns a verification table and the edits.
 
-## 5. Reply in chat
+Apply the coach's output and every fact-checker fix. Cut anything marked Wrong. Then build the page:
 
-Give a 4 to 5 line summary: the most important finding, the deal to know cold, the best question, the biggest gap, and the Notion link.
+```
+python3 -I <skill dir>/build.py <slug>.json <scratchpad>/deep-dive/<slug>.html
+```
 
-## Getting better over time
+Fix every ERROR. For each WARN under the quality bar, go back and fill the gap (dispatch the relevant agent again with a narrow ask), unless the material truly doesn't exist. If it doesn't, add that to `gaps`.
 
-- A source that worked unusually well: add it to `research-sources`.
-- A section Dana says she never reads, or wants more of: update this file.
-- Commit and push changes to the repo.
+## Quality bar (every run)
+
+- 25+ sources, all opened. Filings and firm releases come first.
+- 12+ deals listed, and 4+ with full breakdowns. Deal mode: every angle of the one deal, plus 5 related deals.
+- 3+ charts. Always include the firm's share price over 12 months when it's public, its revenue by segment, and the group's or sector's deal volume.
+- 4+ market trends, each with a number and "why it matters."
+- 40+ drill cards across all topics, and 10+ questions to ask with the best 3 starred.
+- Person modes: a full career timeline with dates, a team map, and hooks.
+- A gaps list naming exactly where to look (Capital IQ or PitchBook via UNC, LinkedIn, or ask them).
+- Zero unsourced numbers.
+
+## 5. Publish
+
+1. **Web dossier.** Publish `<slug>.html` with the Artifact tool:
+   - `icon`: "briefcase"
+   - `description`: one sentence on what it covers
+   - the page title is the firm and group or the person's name, e.g. "Citi Media & Telecom" or "<Person> · <Firm>"
+
+   It's private to Dana by default. Don't share it.
+2. **Notion.** Create `Deep Dive – <Title> – <Month D, YYYY>`:
+   - Where: under the person's People page (person modes), or under the firm's Firms page (firm and deal modes).
+   - Icon: a Lucide-style line icon.
+   - Content: the dossier link at the top, then TL;DR, KPIs, the deal table, the questions, the gaps, and toggles holding the full breakdowns and sources.
+   - Update empty or outdated properties on People and Firms rows (Role & About, Level, Location, Key Takeaways). Never overwrite Dana's notes.
+3. **Word copy.** Save it to `<career_root>/Recruitment/Firms/<Firm>/Research/Deep Dive – <Title> <YYYY-MM-DD>.docx` (write HTML, then run `textutil -convert docx`).
+4. **Audio briefing (optional).** If the `notebooklm` skill works in this session, load the dossier and its top sources into a notebook and generate an Audio Overview for Dana to listen to on the way to the interview. Skip it silently if NotebookLM isn't set up.
+5. **Email.** See below.
+
+## 6. The Deep Dive email
+
+Send it with the Gmail connector to `newsletter_to` in profile.json and to no one else. This is Dana's own inbox, the same as the Daily Recruiting Brief, but a separate email.
+
+**Subject:** `Deep Dive – <Title> – <Weekday, Month D>`
+
+HTML if supported, otherwise clean plain text, built to read on a phone:
+
+1. **Header:** title, mode, purpose and date, and three links (web dossier, Notion page, Word file).
+2. **In 30 seconds:** the TL;DR bullets.
+3. **The numbers:** the KPI table.
+4. **Deals to know cold:** the top 5 deals as a table (Date · Deal · Size · Role), each with a one-line "why it matters."
+5. **The person** (person modes): current role, path in 3 lines, and the best hook.
+6. **Market in 3 lines.**
+7. **Your 3 best questions.**
+8. **Practice now:** 5 drill questions, then "Answers below," then the answers.
+9. **Still missing:** the top gaps and where to look.
+10. **Footer:** the source count and the fact-check result (e.g. "62 sources · 148 figures checked · 3 corrected").
+
+Every item links to its source or to the dossier. Nothing goes in the email that isn't in the dossier.
+
+## 7. Reply in chat
+
+Give 4 to 5 lines: the most important finding, the deal to know cold, the best question, the biggest gap, and the links. Keep it short; everything else is in the dossier.
+
+## Getting better
+
+- A source that worked well: add it to `research-sources`.
+- Dana says a section is useless, or wants more of something: change this file or the template.
+- Commit and push repo changes.
 
 ## Rules
 
-- Read only. Never contact anyone, sign up, pay, or submit anything.
+- Read only on the web. Never contact anyone, sign up, pay, or submit anything. The only email sent goes to Dana's own `newsletter_to` address.
 - Every fact has a source. Nothing is invented. Say "the person worked on it" only when a source names them.
-- No personal data in this skill file.
+- No personal data in this skill's files.

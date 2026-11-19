@@ -1,0 +1,327 @@
+<title>{{TITLE}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: pitchbook dossier. Sticky section rail, long-form sections, deals as tombstones that open into full breakdowns. */
+:root{
+  --paper:#F2F4F8; --surface:#FFFFFF; --ink:#13203A; --muted:#58627A; --rule:#D8DDE7;
+  --accent:#A86A12; --accent-soft:#F5EAD8; --good:#2F7D4F; --warn:#B4442E; --chip:#E7EBF2;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0C1322; --surface:#131C30; --ink:#E5E9F1; --muted:#98A2B6; --rule:#26314A;
+  --accent:#F0A83A; --accent-soft:#2B2416; --good:#5CC48A; --warn:#F07A63; --chip:#1D2840; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0C1322; --surface:#131C30; --ink:#E5E9F1; --muted:#98A2B6; --rule:#26314A;
+  --accent:#F0A83A; --accent-soft:#2B2416; --good:#5CC48A; --warn:#F07A63; --chip:#1D2840; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.6 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--accent)} a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h2{font-size:28px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:19px;font-weight:600}
+h4{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+p{margin:0;max-width:68ch}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+/* cover */
+.cover{background:var(--surface);border-bottom:1px solid var(--rule)}
+.cover .wrap{padding-block:40px 28px;display:grid;gap:18px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.cover h1{font-size:clamp(32px,6vw,54px);font-weight:700;letter-spacing:-.02em}
+.cover .sub{font-size:18px;color:var(--muted);max-width:70ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 12px/1 var(--mono);padding:6px 9px;border-radius:4px;background:var(--chip);color:var(--ink)}
+.chip.acc{background:var(--accent-soft);color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.kpi{background:var(--surface);padding:14px 16px;display:grid;gap:4px;min-width:0}
+.kpi .v{font:500 24px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kpi .n{font-size:12px;color:var(--muted)}
+/* rail */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail a{font:500 13px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:8px 10px;border-radius:4px;white-space:nowrap}
+.rail a:hover,.rail a.on{color:var(--ink);background:var(--chip)}
+/* sections */
+main .wrap{display:grid;gap:56px;padding-block:40px 80px}
+section{display:grid;gap:20px;scroll-margin-top:64px;min-width:0}
+.sec-head{display:grid;gap:6px;border-top:2px solid var(--ink);padding-top:12px}
+.sec-head .eyebrow{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:18px;display:grid;gap:12px;align-content:start;min-width:0}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+ol.tldr{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:t}
+ol.tldr li{counter-increment:t;display:grid;grid-template-columns:32px 1fr;gap:8px;font-size:17px}
+ol.tldr li::before{content:counter(t,decimal-leading-zero);font:500 14px/1.7 var(--mono);color:var(--accent)}
+dl.kv{display:grid;grid-template-columns:minmax(120px,38%) 1fr;margin:0;border-top:1px solid var(--rule)}
+dl.kv dt,dl.kv dd{margin:0;padding:8px 0;border-bottom:1px solid var(--rule);min-width:0}
+dl.kv dt{color:var(--muted);font-size:13px;padding-right:12px}
+dl.kv dd{font-variant-numeric:tabular-nums}
+sup.c a{font:500 10px/1 var(--mono);text-decoration:none;margin-left:1px}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font:600 11px/1.2 var(--display);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+.pill{display:inline-block;font:500 11px/1 var(--mono);padding:4px 6px;border-radius:3px;background:var(--chip);white-space:nowrap}
+.pill.good{color:var(--good)} .pill.warn{color:var(--warn)} .pill.acc{background:var(--accent-soft);color:var(--accent)}
+/* timeline */
+.tl{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.tl li{display:grid;grid-template-columns:110px 14px 1fr;gap:10px;min-width:0}
+.tl .d{font:500 12px/1.9 var(--mono);color:var(--muted);text-align:right}
+.tl .dot{position:relative} .tl .dot::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:1px;background:var(--rule)}
+.tl .dot::after{content:"";position:absolute;left:2px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.tl .t{padding-bottom:14px;min-width:0}
+/* tombstones */
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font:500 12px/1 var(--mono);padding:7px 10px;border-radius:4px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.stones{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.stone{background:var(--surface);border:1px solid var(--rule);border-radius:2px;padding:18px 16px;display:grid;gap:8px;text-align:center;cursor:pointer;font:inherit;color:inherit;align-content:start}
+.stone:hover{border-color:var(--accent)}
+.stone .co{font:700 18px/1.15 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.stone .ty{font-size:12px;color:var(--muted)}
+.stone .sz{font:500 22px/1 var(--mono);color:var(--accent)}
+.stone .rl{font-size:12px;border-top:1px solid var(--rule);padding-top:8px}
+.stone .dt{font:500 11px/1 var(--mono);color:var(--muted)}
+.stone .named{font:600 10px/1 var(--mono);color:var(--good);text-transform:uppercase;letter-spacing:.08em}
+details.card{background:var(--surface);border:1px solid var(--rule);border-radius:6px;min-width:0}
+details.card>summary{list-style:none;cursor:pointer;padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary::after{content:"+";font:500 20px/1 var(--mono);color:var(--muted)}
+details.card[open]>summary::after{content:"–"}
+details.card .body{padding:0 18px 18px;display:grid;gap:18px;border-top:1px solid var(--rule);padding-top:16px}
+.adv{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.adv div{border-left:2px solid var(--accent);padding:2px 0 2px 10px;min-width:0}
+.adv b{display:block;font:600 11px/1.3 var(--display);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:2px}
+.pitch{background:var(--accent-soft);border-radius:6px;padding:14px 16px;font-size:15px}
+/* charts */
+.chart svg{width:100%;height:auto;max-height:300px;display:block}
+.chart text{fill:var(--muted);font:11px var(--mono)}
+.chart .lbl{fill:var(--ink)}
+/* org */
+.org{display:grid;gap:10px;justify-items:center}
+.org .row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.org .node{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:8px 12px;text-align:center;min-width:140px;max-width:220px}
+.org .node b{display:block;font:600 14px/1.2 var(--display)}
+.org .node span{font-size:12px;color:var(--muted)}
+.org .node.me{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.org .bar{width:1px;height:14px;background:var(--rule)}
+/* questions + drill */
+.qs{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.qs li{display:grid;grid-template-columns:22px 1fr;gap:8px}
+.qs .s{color:var(--accent);font-weight:700}
+.drill{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:22px;display:grid;gap:16px}
+.drill .q{font:600 22px/1.3 var(--display)}
+.drill .a{border-top:1px solid var(--rule);padding-top:14px}
+.drill .ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font:500 13px/1 var(--body);padding:10px 14px;border-radius:4px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.btn.ok{color:var(--good)} .btn.no{color:var(--warn)}
+.prog{font:500 12px/1 var(--mono);color:var(--muted);margin-left:auto}
+ol.src{margin:0;padding-left:28px;display:grid;gap:4px;font-size:13px}
+ol.src li{scroll-margin-top:70px} ol.src li:target{background:var(--accent-soft)}
+footer{border-top:1px solid var(--rule);color:var(--muted);font-size:12px}
+footer .wrap{padding-block:20px}
+@media (max-width:560px){.tl li{grid-template-columns:72px 14px 1fr} dl.kv{grid-template-columns:1fr} dl.kv dt{border-bottom:0;padding-bottom:0}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="cover"><div class="wrap" id="cover"></div></header>
+<nav class="rail" aria-label="Sections"><div class="wrap" id="rail"></div></nav>
+<main><div class="wrap" id="main"></div></main>
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script type="application/json" id="dossier-data">/*DOSSIER_JSON*/</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('dossier-data').textContent);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cite = src => { if(src==null||src==='') return ''; const a=[].concat(src); return '<sup class="c">'+a.map(n=>`<a href="#src-${esc(n)}">[${esc(n)}]</a>`).join('')+'</sup>'; };
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\[(\d+)\]/g,(m,n)=>`<sup class="c"><a href="#src-${n}">[${n}]</a></sup>`);
+const has = x => Array.isArray(x) ? x.length>0 : !!x && (typeof x!=='object' || Object.keys(x).length>0);
+const list = (arr, cls='clean') => has(arr) ? `<ul class="${cls}">${arr.map(x=>`<li>${fmt(x)}</li>`).join('')}</ul>` : '';
+const kv = rows => has(rows) ? `<dl class="kv">${rows.map(r=>`<dt>${esc(r.k)}</dt><dd>${fmt(r.v)}${cite(r.src)}</dd>`).join('')}</dl>` : '';
+const tl = rows => has(rows) ? `<ol class="tl">${rows.map(r=>`<li><span class="d">${esc(r.date||r.dates)}</span><span class="dot"></span><div class="t">${r.title?`<b>${fmt(r.title)}</b> `:''}${fmt(r.text||r.role||'')}${r.firm?` <span class="muted">· ${esc(r.firm)}</span>`:''}${r.note?`<div class="muted">${fmt(r.note)}</div>`:''}${cite(r.src)}</div></li>`).join('')}</ol>` : '';
+const panel = (title, inner) => inner ? `<div class="panel"><h4>${esc(title)}</h4>${inner}</div>` : '';
+const sec = (id, eyebrow, title, inner, navLabel) => { if(!inner) return ''; nav.push([id, navLabel||title]); return `<section id="${id}"><div class="sec-head"><span class="eyebrow">${esc(eyebrow)}</span><h2>${esc(title)}</h2></div>${inner}</section>`; };
+const nav = [];
+const M = D.meta || {};
+
+// charts drawn to one scale
+function barChart(c){
+  const rows=c.series||[]; if(!rows.length) return '';
+  const max=Math.max(...rows.map(r=>+r.value||0))||1, W=640, lw=170, rh=28, H=rows.length*rh+10;
+  const bars=rows.map((r,i)=>{const w=Math.max(1,(+r.value/max)*(W-lw-90)); const y=i*rh+5;
+    return `<text class="lbl" x="${lw-8}" y="${y+17}" text-anchor="end">${esc(r.label)}</text><rect x="${lw}" y="${y+4}" width="${w}" height="${rh-10}" rx="2" fill="var(--accent)"></rect><text x="${lw+w+6}" y="${y+17}">${esc(r.display ?? r.value)}${c.unit&&!r.display?' '+esc(c.unit):''}</text>`;}).join('');
+  return `<figure class="panel chart" style="margin:0"><h4>${esc(c.title)}</h4><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.title)}">${bars}</svg>${c.note?`<p class="muted" style="font-size:12px">${fmt(c.note)}</p>`:''}<p class="muted" style="font-size:12px">Source${cite(c.src)}</p></figure>`;
+}
+function lineChart(c){
+  const p=c.points||[]; if(p.length<2) return '';
+  const W=640,H=240,l=48,r=16,t=14,b=28, ys=p.map(d=>+d.y), lo=Math.min(...ys), hi=Math.max(...ys), pad=(hi-lo)*.08||1, y0=lo-pad, y1=hi+pad;
+  const X=i=>l+i*(W-l-r)/(p.length-1), Y=v=>t+(1-(v-y0)/(y1-y0))*(H-t-b);
+  const ticks=[0,.25,.5,.75,1].map(f=>y0+f*(y1-y0));
+  const grid=ticks.map(v=>`<line x1="${l}" x2="${W-r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"></line><text x="${l-6}" y="${Y(v)+4}" text-anchor="end">${v>=100?Math.round(v):v.toFixed(1)}</text>`).join('');
+  const path=p.map((d,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(+d.y).toFixed(1)}`).join('');
+  const area=`${path}L${X(p.length-1)},${H-b}L${X(0)},${H-b}Z`;
+  const xl=[0,Math.floor((p.length-1)/2),p.length-1].map(i=>`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?'start':i===p.length-1?'end':'middle'}">${esc(p[i].x)}</text>`).join('');
+  const marks=(c.marks||[]).map(m=>{const i=p.findIndex(d=>d.x===m.x); if(i<0) return ''; return `<line x1="${X(i)}" x2="${X(i)}" y1="${t}" y2="${H-b}" stroke="var(--muted)" stroke-dasharray="3 3"></line><text class="lbl" x="${X(i)+4}" y="${t+10}">${esc(m.label)}</text>`;}).join('');
+  const last=p[p.length-1];
+  return `<figure class="panel chart" style="margin:0"><h4>${esc(c.title)}</h4><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.title)}">${grid}<path d="${area}" fill="var(--accent-soft)"></path><path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"></path>${marks}<circle cx="${X(p.length-1)}" cy="${Y(+last.y)}" r="4" fill="var(--accent)"></circle>${xl}</svg>${c.note?`<p class="muted" style="font-size:12px">${fmt(c.note)}</p>`:''}<p class="muted" style="font-size:12px">Source${cite(c.src)}</p></figure>`;
+}
+const chart = c => c.type==='line' ? lineChart(c) : barChart(c);
+const chartsFor = where => (D.charts||[]).filter(c=>c.section===where).map(chart).join('');
+
+// cover
+document.title = M.title || document.title;
+document.getElementById('cover').innerHTML = `
+  <span class="eyebrow">Deep Dive · ${esc(M.date||'')}${M.mode?` · ${esc(M.mode)}`:''}</span>
+  <h1>${esc(M.title||'')}</h1>
+  ${M.subtitle?`<p class="sub">${fmt(M.subtitle)}</p>`:''}
+  <div class="chips">${M.purpose?`<span class="chip acc">${esc(M.purpose)}</span>`:''}${(M.tags||[]).map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>
+  ${has(D.kpis)?`<div class="kpis">${D.kpis.map(k=>`<div class="kpi"><span class="l">${esc(k.label)}</span><span class="v">${esc(k.value)}${cite(k.src)}</span>${k.note?`<span class="n">${fmt(k.note)}</span>`:''}</div>`).join('')}</div>`:''}`;
+
+let out='';
+out += sec('tldr','Read this first','TL;DR', has(D.tldr)?`<ol class="tldr">${D.tldr.map(x=>`<li><span>${fmt(x)}</span></li>`).join('')}</ol>`:'');
+
+// people
+const people = D.people || (D.person ? [D.person] : []);
+people.forEach((P,idx)=>{
+  const team = has(P.team) ? `<div class="org">${P.team_lead?`<div class="node"><b>${esc(P.team_lead.name)}</b><span>${esc(P.team_lead.title)}</span></div><div class="bar"></div>`:''}<div class="row">${P.team.map(m=>`<div class="node${m.is_subject?' me':''}"><b>${esc(m.name)}</b><span>${esc(m.title)}</span>${m.note?`<span style="display:block">${fmt(m.note)}</span>`:''}</div>`).join('')}</div></div>` : '';
+  const inner = `
+    ${P.summary?`<p style="font-size:17px">${fmt(P.summary)}</p>`:''}
+    <div class="grid2">
+      ${panel('Right now', kv([{k:'Title',v:P.title},{k:'Group',v:P.group},{k:'Location',v:P.location},{k:'Licenses',v:(P.licenses||[]).join(', ')}].filter(r=>r.v)))}
+      ${panel('Education & activities', has(P.education)?`<ul class="clean">${P.education.map(e=>`<li><b>${esc(e.school)}</b>${e.detail?` · ${fmt(e.detail)}`:''}${cite(e.src)}</li>`).join('')}</ul>`:'')}
+    </div>
+    ${panel('Career timeline', tl(P.timeline))}
+    ${panel('Team map', team)}
+    <div class="grid2">
+      ${panel('Deals that name them', list(P.deals_named))}
+      ${panel('Public appearances', tl(P.appearances))}
+      ${panel('Conversation hooks', list(P.hooks))}
+      ${panel('Overlap with you', list(P.overlap))}
+    </div>`;
+  out += sec('person'+(idx||''), people.length>1?`Person ${idx+1} of ${people.length}`:'The person', P.name||'Person', inner, P.name ? P.name.split(' ')[0] : 'Person');
+});
+
+// firm
+const F = D.firm || {};
+if(has(F)) out += sec('firm','The firm', F.name||'Firm', `
+  ${F.summary?`<p style="font-size:17px">${fmt(F.summary)}</p>`:''}
+  <div class="grid2">${panel('Snapshot', kv(F.snapshot))}${panel('Strategy & priorities', list(F.strategy))}</div>
+  <div class="grid2">${chartsFor('firm')}</div>
+  ${panel('News timeline · last 12 months', tl(F.news))}
+  ${has(F.competitors)?`<div class="tbl"><table><thead><tr><th>Competitor</th><th>How this firm differs</th></tr></thead><tbody>${F.competitors.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${fmt(c.edge)}${cite(c.src)}</td></tr>`).join('')}</tbody></table></div>`:''}`);
+
+// group
+const G = D.group || {};
+if(has(G)) out += sec('group','The group', G.name||'Group', `
+  ${G.summary?`<p style="font-size:17px">${fmt(G.summary)}</p>`:''}
+  <div class="grid2">
+    ${panel('Coverage', list(G.coverage))}
+    ${panel('Leaders', has(G.leaders)?`<ul class="clean">${G.leaders.map(l=>`<li><b>${esc(l.name)}</b> · ${esc(l.title)}${l.note?` · <span class="muted">${fmt(l.note)}</span>`:''}${cite(l.src)}</li>`).join('')}</ul>`:'')}
+    ${panel('How it is organized', G.structure?`<p>${fmt(G.structure)}</p>`:'')}
+    ${panel('What juniors do', G.junior_life?`<p>${fmt(G.junior_life)}</p>`:'')}
+  </div>
+  ${has(G.rankings)?`<div class="tbl"><table><thead><tr><th>League table</th><th class="num">Rank</th><th class="num">Prior</th><th>Note</th></tr></thead><tbody>${G.rankings.map(r=>`<tr><td>${esc(r.table)}</td><td class="num mono">${esc(r.rank)}</td><td class="num mono">${esc(r.prior??'')}</td><td>${fmt(r.note||'')}${cite(r.src)}</td></tr>`).join('')}</tbody></table></div>`:''}
+  <div class="grid2">${chartsFor('group')}</div>`);
+
+// deals
+const deals = D.deals || [];
+if(deals.length){
+  const types=[...new Set(deals.map(d=>d.type).filter(Boolean))];
+  const stones = deals.map((d,i)=>`<button class="stone" data-type="${esc(d.type)}" data-i="${i}" type="button">
+      <span class="dt">${esc(d.date)}</span><span class="co">${esc(d.name)}</span><span class="ty">${esc(d.headline||d.type)}</span>
+      <span class="sz">${esc(d.size||'—')}</span><span class="rl">${esc(d.role||'')}</span>${d.person_named?'<span class="named">● Person named</span>':''}</button>`).join('');
+  const table = `<div class="tbl"><table><thead><tr><th>Date</th><th>Deal</th><th>Type</th><th class="num">Size</th><th>Firm's role</th><th>Status</th><th>Src</th></tr></thead><tbody>${deals.map(d=>`<tr data-type="${esc(d.type)}"><td class="mono">${esc(d.date)}</td><td><b>${esc(d.name)}</b>${d.person_named?' <span class="pill good">named</span>':''}</td><td><span class="pill">${esc(d.type)}</span></td><td class="num mono">${esc(d.size||'')}</td><td>${esc(d.role||'')}</td><td><span class="pill ${/compl|clos/i.test(d.status||'')?'good':/term|withdr/i.test(d.status||'')?'warn':'acc'}">${esc(d.status||'')}</span></td><td>${cite(d.src)}</td></tr>`).join('')}</tbody></table></div>`;
+  const cards = deals.filter(d=>d.deep).map(d=>{
+    const i=deals.indexOf(d);
+    return `<details class="card" id="deal-${i}"><summary><div><span class="eyebrow">${esc(d.type)} · ${esc(d.date)} · ${esc(d.status||'')}</span><h3>${esc(d.name)} <span class="mono" style="color:var(--accent)">${esc(d.size||'')}</span></h3><span class="muted">${fmt(d.headline||'')}</span></div></summary>
+      <div class="body">
+        ${d.overview?`<p>${fmt(d.overview)}</p>`:''}
+        <div class="grid2">${panel('Terms', kv(d.terms))}${panel('Valuation', kv(d.valuation))}</div>
+        ${has(d.advisors)?panel('Advisors by role', `<div class="adv">${d.advisors.map(a=>`<div><b>${esc(a.role)}</b>${(a.firms||[]).map(esc).join(', ')}${has(a.people)?`<div class="muted" style="font-size:13px">${a.people.map(esc).join(', ')}</div>`:''}${cite(a.src)}</div>`).join('')}</div>`):''}
+        ${panel('Timeline', tl(d.timeline))}
+        <div class="grid2">${panel('Strategic rationale', list(d.rationale))}${panel('Use of proceeds', d.proceeds?`<p>${fmt(d.proceeds)}</p>`:'')}${panel('Market reaction', list(d.reaction))}${panel("Why it matters for the group", d.angle?`<p>${fmt(d.angle)}</p>`:'')}</div>
+        ${d.pitch?`<div class="pitch"><h4 style="margin-bottom:6px">Walk me through it · 60 seconds</h4>${fmt(d.pitch)}</div>`:''}
+        ${has(d.qa)?panel('Likely questions', `<ul class="clean">${d.qa.map(x=>`<li><b>${fmt(x.q)}</b><br>${fmt(x.a)}</li>`).join('')}</ul>`):''}
+        ${d.opinion?panel('An opinion you can defend', `<p>${fmt(d.opinion)}</p>`):''}
+        ${chartsFor('deal-'+i)}
+      </div></details>`;}).join('');
+  out += sec('deals','Transactions', `Deals · ${deals.length} sourced`, `
+    <div class="filters" id="dealFilters"><button type="button" aria-pressed="true" data-f="">All</button>${types.map(t=>`<button type="button" aria-pressed="false" data-f="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+    <div class="stones" id="stones">${stones}</div>
+    <div class="grid2">${chartsFor('deals')}</div>
+    ${table}
+    ${cards?`<div style="display:grid;gap:10px"><h3>Full breakdowns</h3>${cards}</div>`:''}`, 'Deals');
+}
+
+// market
+if(has(D.market)) out += sec('market','Backdrop','The market right now', `<div class="grid2">${D.market.map(m=>`<div class="panel"><h3>${fmt(m.trend)}</h3><p>${fmt(m.detail)}${cite(m.src)}</p><p><span class="pill acc">Why it matters</span> ${fmt(m.why)}</p></div>`).join('')}</div><div class="grid2">${chartsFor('market')}</div>`, 'Market');
+
+// recruiting
+const R = D.recruiting || {};
+if(has(R)) out += sec('recruiting','Getting in','Recruiting', `
+  <div class="grid2">${panel('Program facts', kv(R.facts))}${panel('Interview format', list(R.format))}</div>
+  ${has(R.postings)?`<div class="tbl"><table><thead><tr><th>Open role</th><th>Location</th><th>Deadline</th><th>What it asks for</th></tr></thead><tbody>${R.postings.map(p=>`<tr><td>${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.role)}</a>`:esc(p.role)}</td><td>${esc(p.location||'')}</td><td class="mono">${esc(p.deadline||'')}</td><td>${fmt(p.notes||'')}</td></tr>`).join('')}</tbody></table></div>`:''}
+  ${R.comp?panel('Compensation', `<p>${fmt(R.comp)}</p>`):''}`);
+
+// angles + questions
+const A = D.angles || {};
+if(has(A)) out += sec('angles','Your pitch','Why you, why here', `<div class="grid2">${panel('Why this firm', list(A.why_firm))}${panel('Why this group', list(A.why_group))}${panel('Links to your experience', list(A.links))}</div>`, 'Your pitch');
+if(has(D.questions)) out += sec('questions','To ask','Questions', `<ul class="qs">${D.questions.map(q=>`<li><span class="s">${q.star?'★':'·'}</span><span>${fmt(q.q)}${q.why?` <span class="muted">· ${fmt(q.why)}</span>`:''}</span></li>`).join('')}</ul>`);
+
+// drill
+if(has(D.drill)) out += sec('drill','Practice',`Interview drill · ${D.drill.length} cards`, `
+  <div class="drill" id="drill"><div class="ctrl"><span class="pill acc" id="dTopic"></span><span class="prog" id="dProg"></span></div>
+  <div class="q" id="dQ"></div><div class="a" id="dA" hidden></div>
+  <div class="ctrl"><button class="btn pri" type="button" id="dShow">Show answer</button><button class="btn ok" type="button" id="dGot">Got it</button><button class="btn no" type="button" id="dMiss">Missed it</button><button class="btn" type="button" id="dShuf">Shuffle</button><button class="btn" type="button" id="dMissed">Only missed</button></div></div>
+  <details class="card"><summary><h3>All cards as a list</h3></summary><div class="body"><ol class="clean">${D.drill.map(c=>`<li><b>${fmt(c.q)}</b><br>${fmt(c.a)}</li>`).join('')}</ol></div></details>`, 'Drill');
+
+if(has(D.gaps)) out += sec('gaps','Not found','Still missing · where to look', `<div class="tbl"><table><thead><tr><th>What</th><th>Where to look</th></tr></thead><tbody>${D.gaps.map(g=>`<tr><td>${fmt(g.what)}</td><td>${fmt(g.where)}</td></tr>`).join('')}</tbody></table></div>`, 'Gaps');
+if(has(D.sources)) out += sec('sources','Every fact traces here',`Sources · ${D.sources.length}`, `<ol class="src">${D.sources.map(s=>`<li id="src-${esc(s.n)}" value="${esc(s.n)}"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a> <span class="muted">· ${esc(s.publisher||'')}${s.date?' · '+esc(s.date):''}</span></li>`).join('')}</ol>`, 'Sources');
+
+document.getElementById('main').innerHTML = out;
+document.getElementById('rail').innerHTML = nav.map(([id,l])=>`<a href="#${id}">${esc(l)}</a>`).join('');
+document.getElementById('foot').innerHTML = `Built ${esc(M.date||'')} from public sources${M.notion_url?` · <a href="${esc(M.notion_url)}" target="_blank" rel="noopener">Notion page</a>`:''}. Every figure links to its source. Facts can change; check dates before quoting.`;
+
+// deal filters + tombstone clicks
+const fBox=document.getElementById('dealFilters');
+if(fBox) fBox.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; const f=b.dataset.f;
+  fBox.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false'));
+  document.querySelectorAll('#stones .stone, #deals tbody tr').forEach(el=>{el.hidden = !!f && el.dataset.type!==f;});});
+const st=document.getElementById('stones');
+if(st) st.addEventListener('click',e=>{const s=e.target.closest('.stone'); if(!s) return; const c=document.getElementById('deal-'+s.dataset.i); if(c){c.open=true; c.scrollIntoView({block:'start'});}});
+
+// active rail link
+const links=[...document.querySelectorAll('#rail a')];
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+en.target.id));}}),{rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('main section').forEach(s=>io.observe(s));}
+
+// drill
+if(has(D.drill)){
+  const KEY='dd-drill-'+(M.slug||M.title||'x'); let marks={}; try{marks=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}};
+  let order=D.drill.map((_,i)=>i), pos=0;
+  const $=id=>document.getElementById(id);
+  const show=()=>{ if(!order.length){$('dQ').textContent='No missed cards. Nice.'; $('dA').hidden=true; return;} const c=D.drill[order[pos]];
+    $('dTopic').textContent=c.topic||'Card'; $('dQ').innerHTML=fmt(c.q); $('dA').innerHTML=fmt(c.a); $('dA').hidden=true;
+    const got=Object.values(marks).filter(v=>v==='got').length; $('dProg').textContent=`${pos+1} / ${order.length} · ${got} mastered`; };
+  const next=()=>{pos=(pos+1)%Math.max(order.length,1); show();};
+  $('dShow').onclick=()=>{$('dA').hidden=false;};
+  $('dGot').onclick=()=>{marks[order[pos]]='got'; save(); next();};
+  $('dMiss').onclick=()=>{marks[order[pos]]='miss'; save(); next();};
+  $('dShuf').onclick=()=>{order.sort(()=>Math.random()-.5); pos=0; show();};
+  $('dMissed').onclick=()=>{order=D.drill.map((_,i)=>i).filter(i=>marks[i]!=='got'); pos=0; show();};
+  show();
+}
+})();
+</script>
