@@ -110,3 +110,6 @@
   "video_tips": ["look at the lens"]}
 ```
 Every video question renders as a toggle with the answer inside.
+
+## Playbook (optional section)
+`"playbook": [{"title": "Tell me about yourself (75 sec)", "text": "spoken answer", "items": ["bullets"]}]`. Each entry renders as a toggle; the first starts open. Use it for the call plan, practice plan, and prepared answers.

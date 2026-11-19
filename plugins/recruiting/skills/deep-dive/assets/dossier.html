@@ -296,6 +296,9 @@ if(has(R)) out += sec('recruiting','Getting in','Recruiting', `
   ${has(R.postings)?`<div class="tbl"><table><thead><tr><th>Open role</th><th>Location</th><th>Deadline</th><th>What it asks for</th></tr></thead><tbody>${R.postings.map(p=>`<tr><td>${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.role)}</a>`:esc(p.role)}</td><td>${esc(p.location||'')}</td><td class="mono">${esc(p.deadline||'')}</td><td>${fmt(p.notes||'')}</td></tr>`).join('')}</tbody></table></div>`:''}
   ${R.comp?panel('Compensation', `<p>${fmt(R.comp)}</p>`):''}`);
 
+// playbook (optional): [{title, text, items:[...]}] — what to say and the plan, each a toggle
+if(has(D.playbook)) out += sec('playbook','Your plan','Playbook', `<div class="qts">${D.playbook.map((b,i)=>`<details class="qt"${i===0?' open':''}><summary><span class="mono muted">${i+1}</span><span>${fmt(b.title)}</span></summary><div class="a">${b.text?`<p>${fmt(b.text)}</p>`:''}${list(b.items)}</div></details>`).join('')}</div>`, 'Playbook');
+
 // assessment + one-way video (optional): {due, facts, strategy, checklist, video:[{q,a,tip}], video_tips}
 const X = D.assessment || {};
 if(has(X)) out += sec('assessment','Next step','Assessment & video', `
