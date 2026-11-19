@@ -16,6 +16,7 @@ Check this table before doing a task by hand.
 | Interview prep: firm, deals, technicals, behaviorals, mock interview | `interview-prep` skill | recruiting |
 | Event email → Career & Finance calendar | `add-event` skill | recruiting |
 | Networking / cold outreach email draft (Kenan-Flagler Mail) | `outreach-email` skill | recruiting |
+| Daily outreach audit: what I actually sent vs. offered times, top people to email today, drafts rebuilt, list emailed to me (/outreach-audit) | `outreach-audit` skill | recruiting |
 | Recruiting prep, technicals, personal finance (general) | `career-finance` agent | recruiting |
 | Check email, triage, draft a reply | `email-assistant` skill | personal-admin |
 | When am I free, offer times, calendar holds | `scheduling` skill | personal-admin |
