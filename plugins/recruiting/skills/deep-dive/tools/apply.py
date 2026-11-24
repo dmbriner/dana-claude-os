@@ -55,6 +55,9 @@ if pp:
             else: pb.append({"title": f"Practice block {i+1}", "text": str(b)})
     else: pb.append({"title": "Practice plan", "text": str(pp)})
 if C.get("avoid"): pb.append({"title": "Don't say (accuracy traps)", "items": C["avoid"]})
+if isinstance(C.get("playbook"), list):  # coach may return finished playbook entries
+    have = {p.get("title") for p in pb}
+    pb += [p for p in C["playbook"] if isinstance(p, dict) and p.get("title") not in have]
 if pb: D["playbook"] = pb + D.get("playbook", [])
 json.dump(D, open(out, "w"), ensure_ascii=False, indent=1)
 print("\n".join(log)); print(f"fixes applied/cut: {sum(1 for l in log if l[:3] in ('FIX','CUT'))}, skipped: {sum(1 for l in log if l.startswith('SKIP'))}")
